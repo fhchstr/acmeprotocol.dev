@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>The ACME Protocol on ACME and the WebPKI</title><link>http://localhost:1313/acme/</link><description>Recent content in The ACME Protocol on ACME and the WebPKI</description><generator>Hugo</generator><language>en-us</language><atom:link href="http://localhost:1313/acme/index.xml" rel="self" type="application/rss+xml"/><item><title>Overview</title><link>http://localhost:1313/acme/overview/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/acme/overview/</guid><description>&lt;h1 id="acme-overview">
+ ACME Overview
+ &lt;a class="anchor" href="#acme-overview">#&lt;/a>
+&lt;/h1>
+&lt;p>ACME allows clients to trigger certificate management actions using a set of
+JSON messages. Issuance using ACME resembles a traditional CA&amp;rsquo;s issuance
+process, in which a client:&lt;/p>
+&lt;ol>
+&lt;li>Creates an account.&lt;/li>
+&lt;li>Initiates an order for a certificate to be issued.&lt;/li>
+&lt;li>Proves control of all identifiers (domain names, IP addresses, etc.)
+requested to be included in the certificate.&lt;/li>
+&lt;li>Finalizes the order by submitting a CSR (Certificate Signing Request).&lt;/li>
+&lt;li>Awaits issuance and downloads the issued certificate along with the
+corresponding chain(s).&lt;/li>
+&lt;/ol>
+&lt;p>This pages introduces the most important concepts and provides a high-level
+explanation of the ACME protocol. Refer to
+&lt;a href="https://datatracker.ietf.org/doc/html/rfc8555">RFC 8555&lt;/a> for additional
+information.&lt;/p></description></item><item><title>Challenge Types</title><link>http://localhost:1313/acme/challenges/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/acme/challenges/</guid><description>&lt;h1 id="acme-challenge-types">
+ ACME Challenge Types
+ &lt;a class="anchor" href="#acme-challenge-types">#&lt;/a>
+&lt;/h1>
+&lt;p>ACME challenges provide the CA with assurance that certificate requesters
+control the identifiers (domain name or IP address) requested to be included in
+the certificate. To successfully complete challenges, clients must both prove
+that they control the identifiers in question and that they hold the private key
+of the account key pair used to respond to the challenges.&lt;/p>
+&lt;p>ACME challenges typically require the client to set up some network accessible
+resource that the CA can query (via DNS or HTTP)
+&lt;a href="http://localhost:1313/webpki/mpic/">from multiple vantage points worldwide&lt;/a> in order to validate
+that the client controls an identifier. Once the challenge is validated, the
+client should de-provision the resource.&lt;/p></description></item><item><title>EAB (External Account Binding)</title><link>http://localhost:1313/acme/eab/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/acme/eab/</guid><description>&lt;h1 id="eab-external-account-binding">
+ EAB (External Account Binding)
+ &lt;a class="anchor" href="#eab-external-account-binding">#&lt;/a>
+&lt;/h1>
+&lt;p>To enforce quota limits, provide technical support, or prevent abuse, some ACME
+CAs may require an existing account in a non-ACME system, such as a CA customer
+database, as a prerequisite for creating new ACME accounts. This account
+association is called EAB (External Account Binding). It is specified in
+&lt;a href="https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4">RFC 8555&lt;/a>.&lt;/p>
+&lt;p>CAs having this requirement advertise it by setting the
+&lt;code>meta.externalAccountRequired&lt;/code> field to &lt;code>true&lt;/code> in the JSON object returned by
+the &lt;a href="http://localhost:1313/acme/overview/#directory">ACME Directory URL&lt;/a>.&lt;/p></description></item><item><title>ARI (ACME Renewal Information)</title><link>http://localhost:1313/acme/ari/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/acme/ari/</guid><description>&lt;h1 id="ari-acme-renewal-information">
+ ARI (ACME Renewal Information)
+ &lt;a class="anchor" href="#ari-acme-renewal-information">#&lt;/a>
+&lt;/h1>
+&lt;p>ARI (ACME Renewal Information) is an ACME endpoint that returns, for every
+certificate, the suggested period in which they should be renewed. ARI enables
+CAs to automatically inform their users that they must proactively replace their
+certificates in case they will be revoked due to a compliance violation. In
+addition, ARI also helps to mitigate load spikes by evenly distributing the
+suggested renewal window across all certificates.&lt;/p></description></item></channel></rss>

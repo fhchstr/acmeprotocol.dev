@@ -1,0 +1,45 @@
+baseURL = 'https://acmeprotocol.dev/'
+languageCode = 'en-us'
+title = 'ACME and the WebPKI'
+# theme = 'hugo-book'
+
+# (Optional) Set this to true if you use capital letters in file names
+disablePathToLower = true
+# (Optional) Set this to true to enable 'Last Modified by' date and git author
+#  information on 'doc' type pages.
+enableGitInfo = false
+# (Optional) Theme is intended for documentation use, therefore it doesn't render taxonomy.
+# You can remove related files with config below
+disableKinds = ['taxonomy']
+
+[markup]
+[markup.goldmark.renderer]
+unsafe = true
+[markup.tableOfContents]
+startLevel = 1
+
+[menu]
+[[menu.after]]
+name = "Contribute to this Website"
+url = "https://github.com/fhchstr/acmeprotocol.dev"
+weight = 10
+
+[params]
+BookTheme = 'auto'
+BookToC = true
+# BookFavicon = 'favicon.png'
+BookSection = '*'
+# BookRepo = 'https://github.com/fhchstr/acmeprotocol.dev'
+# BookCommitPath = 'commit'
+# BookEditPath = 'edit/main'
+BookDateFormat = '2006-01-02'
+BookSearch = false
+BookComments = false
+
+[module]
+[[module.imports]]
+path = 'github.com/alex-shpak/hugo-book'
+
+[services]
+[services.googleAnalytics]
+id = 'G-0LW86NH9LL' # https://analytics.google.com/

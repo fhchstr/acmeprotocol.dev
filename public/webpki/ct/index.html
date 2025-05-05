@@ -1,0 +1,76 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  CT (Certificate Transparency)
+  #
+
+The &ldquo;Trust, but verify&rdquo;
+proverb fits particularly well the WebPKI. Clients trust CAs to only issue
+certificates after they&rsquo;ve performed the necessary verifications. But what if
+the CA makes a mistake or if someone manipulates the CA into issuing
+certificates for a domain you own? 
+You would certainly want to know about it, wouldn&rsquo;t you?
+That&rsquo;s exactly what CT (Certificate Transparency) is for! Publicly trusted CAs
+are obliged to submit all certificates they issue to CT logs, which are
+cryptographically verifiable append-only data stores based on
+Merkle trees, which is the same
+technology that underpins the
+Bitcoin cryptocurrency. This system
+works because
+most web browsers
+only trust certificates submitted to CT logs."><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/webpki/ct/"><meta property="og:site_name" content="ACME and the WebPKI"><meta property="og:title" content="CT (Certificate Transparency)"><meta property="og:description" content="CT (Certificate Transparency) # The “Trust, but verify” proverb fits particularly well the WebPKI. Clients trust CAs to only issue certificates after they’ve performed the necessary verifications. But what if the CA makes a mistake or if someone manipulates the CA into issuing certificates for a domain you own? You would certainly want to know about it, wouldn’t you?
+That’s exactly what CT (Certificate Transparency) is for! Publicly trusted CAs are obliged to submit all certificates they issue to CT logs, which are cryptographically verifiable append-only data stores based on Merkle trees, which is the same technology that underpins the Bitcoin cryptocurrency. This system works because most web browsers only trust certificates submitted to CT logs."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="webpki"><title>CT (Certificate Transparency) | ACME and the WebPKI</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/webpki/ct/><link rel=stylesheet href=/book.min.e9f68c3fff3d8236a489d16a9caf6de5e4d1a29c20eb4b5524e42cd30be4d319.css integrity="sha256-6faMP/89gjakidFqnK9t5eTRopwg60tVJOQs0wvk0xk=" crossorigin=anonymous><script async src="https://www.googletagmanager.com/gtag/js?id=G-0LW86NH9LL"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-0LW86NH9LL")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>ACME and the WebPKI</span></a></h2><ul><li><a href=/getting-started/>Getting Started with ACME</a></li><li><a href=/acme/>The ACME Protocol</a><ul><li><a href=/acme/overview/>Overview</a></li><li><a href=/acme/challenges/>Challenge Types</a></li><li><a href=/acme/eab/>EAB (External Account Binding)</a></li><li><a href=/acme/ari/>ARI (ACME Renewal Information)</a></li></ul></li><li><a href=/webpki/>The WebPKI</a><ul><li><a href=/webpki/cert/>Anatomy of a Certificate</a></li><li><a href=/webpki/cert-lifetime/>Certificate Lifetime</a></li><li><a href=/webpki/caa/>CAA (Certificate Authority Authorization)</a></li><li><a href=/webpki/mpic/>MPIC (Multi-Perspective Issuance Corroboration)</a></li><li><a href=/webpki/ct/ class=active>CT (Certificate Transparency)</a></li></ul></li></ul><ul><li><a href=https://github.com/fhchstr/acmeprotocol.dev target=_blank rel=noopener>Contribute to this Website</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>CT (Certificate Transparency)</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#ct-certificate-transparency>CT (Certificate Transparency)</a><ul><li><a href=#origin>Origin</a></li><li><a href=#domain-owner-responsibilities>Domain Owner Responsibilities</a></li><li><a href=#how-does-it-work->How does it work ?</a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=ct-certificate-transparency>CT (Certificate Transparency)
+<a class=anchor href=#ct-certificate-transparency>#</a></h1><p>The &ldquo;<a href=https://en.wikipedia.org/wiki/Trust,_but_verify>Trust, but verify</a>&rdquo;
+proverb fits particularly well the WebPKI. Clients trust CAs to only issue
+certificates after they&rsquo;ve performed the necessary verifications. But what if
+the CA makes a mistake or if someone manipulates the CA into issuing
+certificates for a domain you own?<br><strong>You would certainly want to know about it, wouldn&rsquo;t you?</strong></p><p>That&rsquo;s exactly what CT (Certificate Transparency) is for! Publicly trusted CAs
+are obliged to submit all certificates they issue to CT logs, which are
+cryptographically verifiable <strong>append-only data stores</strong> based on
+<a href=https://en.wikipedia.org/wiki/Merkle_tree>Merkle trees</a>, which is the same
+technology that underpins the
+<a href=https://en.wikipedia.org/wiki/Bitcoin>Bitcoin cryptocurrency</a>. This system
+works because
+<a href=https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency#browser_requirements>most web browsers</a>
+<strong>only trust certificates submitted to CT logs</strong>.</p><p>This page only provides a high-level overview of certificate transparency. Refer
+to <a href=https://certificate.transparency.dev/>https://certificate.transparency.dev/</a> for more information.</p><h2 id=origin>Origin
+<a class=anchor href=#origin>#</a></h2><p>Certificate transparency was designed to detect maliciously or mistakenly issued
+certificates. It has since evolved into a global database which contains all
+publicly trusted TLS web server certificates. This database is used for various
+purposes. For example, security and compliance researchers use it to discover
+malformed or non-compliant certificates issued by CAs.</p><p>Certificate transparency was first standardized in
+<a href=https://datatracker.ietf.org/doc/html/rfc6962>RFC 6962</a>, and Certificate
+Transparency <strong><ins>2.0</ins></strong> was later standardized in
+<a href=https://datatracker.ietf.org/doc/html/rfc9162>RFC 9162</a>. In 2024, its
+inventors were awarded the
+<a href=https://rwc.iacr.org/LevchinPrize/winners.html#CT>Levchin Prize</a>, which honors
+major innovations in cryptography.</p><h2 id=domain-owner-responsibilities>Domain Owner Responsibilities
+<a class=anchor href=#domain-owner-responsibilities>#</a></h2><p><strong>Site owners are supposed to monitor CT logs for certificates issued for their
+domains</strong>. If they find a certificate they did not request, site owners can
+contact the CA who issued it to request its revocation. The faster and simpler
+way is to <a href=/acme/overview/#revocation>revoke it via ACME</a>.</p><p>Domain owners can use tools and services listed at
+<a href=https://certificate.transparency.dev/monitors/>https://certificate.transparency.dev/monitors/</a> to monitor certificates issued
+for their domains. In particular, <a href=https://crt.sh/>https://crt.sh/</a> is very handy to manually
+explore certificates submitted to CT logs.</p><details><summary>Your hostnames are not private !</summary><div class=markdown-inner><p>Anyone can watch CT logs to discover (potentially internal/non-public) hostnames
+and <a href=https://dl.acm.org/doi/10.1145/3278532.3278562>newly turned up sites</a>.
+<strong>Hostnames cannot be considered private</strong>!</p><p>If you rely on your internal hostnames to be secret to remain secure, first,
+just don&rsquo;t.
+<a href=https://en.wikipedia.org/wiki/Security_through_obscurity#Criticism>Security through obscurity is not a good strategy</a>.
+Second, consider using a private CA to issue TLS web server certificates for
+your internal hosts if you want to ensure they won&rsquo;t show up CT logs.</p></div></details><h2 id=how-does-it-work->How does it work ?
+<a class=anchor href=#how-does-it-work->#</a></h2><p>CAs must embed <a href=/webpki/cert/#sct>SCTs (Signed Certificate Timestamps)</a> in
+their certificates <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. A SCT is receipt signed by a CT log to attest it
+accepted the certificate. But there is a problem here. Since the certificate
+doesn&rsquo;t exist yet, how can it be submitted to the CT log?</p><p><strong>Precertificates to the rescue</strong>! A precertificate is a clone of a certificate
+with 3 key differences:</p><ol><li>It doesn&rsquo;t include SCTs.</li><li>It includes a <a href=/webpki/cert/#extensions>critical</a> CT poison extension, which
+is not recognized by any client (by design/on purpose). This ensures that the
+precertificate cannot be used instead of the real certificate.</li><li>Since there are differences, the signature is obviously also different.</li></ol><p>Here is an <a href="https://crt.sh/?id=17531419628">example precertificate</a> and the
+<a href="https://crt.sh/?id=17870169097">corresponding certificate</a>.</p><p>SCTs cannot be signed by any CT log. They must be signed by CT logs
+trusted/recognized by web browsers. In the same way that browsers only trust
+certain CAs, browsers also only trust certain CT logs. Here are the CT logs
+recognized by major browsers:</p><ul><li><a href=https://www.gstatic.com/ct/log_list/v3/log_list.json>Google Chrome</a></li><li><a href=https://valid.apple.com/ct/log_list/current_log_list.json>Apple Safari</a></li><li><a href=https://blog.transparency.dev/ct-in-firefox#heading-firefox-known-ct-logs>Mozilla Firefox</a></li><li>Microsoft Edge does not require certificates to be submitted to CT logs</li></ul><p>When browsers validate publicly trusted TLS web server certificates, they
+extract the SCTs and they verify their signature against their list of trusted
+CT logs. The signature verification doesn&rsquo;t require connecting to the CT logs.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>In reality, there are other ways to present SCTs to clients, but embedding
+them in certificates is by far the most common way to do it. See
+<a href=https://datatracker.ietf.org/doc/html/rfc6962#section-3.3>RFC 6962</a> for
+more information.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script><i><a href=https://acmeprotocol.dev/>acmeprotocol.dev</a> is a side project from <a href=https://www.linkedin.com/in/fhchstr/>Fabien Hochstrasser</a>. The opinions expressed on this website are my own and do not reflect the views of my current or former employers.</i></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#ct-certificate-transparency>CT (Certificate Transparency)</a><ul><li><a href=#origin>Origin</a></li><li><a href=#domain-owner-responsibilities>Domain Owner Responsibilities</a></li><li><a href=#how-does-it-work->How does it work ?</a></li></ul></li></ul></nav></div></aside></main></body></html>

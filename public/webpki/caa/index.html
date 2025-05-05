@@ -1,0 +1,53 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  CAA (Certificate Authority Authorization)
+  #
+
+CAA (Certificate Authority Authorization) is a
+DNS record type that
+specifies which CAs (Certificate Authorities) are allowed to issue certificates
+for a domain name. CAA can also set additional constraints related to
+certificate issuances.
+Compliance requirements
+oblige CAs to honor CAA records when issuing certificates.
+DV (Domain Validated) certificates issued by publicly trusted CAs are all
+equally trusted. Browsers treat certificates issued by popular CAs the same way
+as certificates issued by small regional CAs. As demonstrated by
+this article from 2022, 98% of all
+publicly trusted TLS web server certificates are issued by the top 5 CAs (out
+of 200+ CAs). Current numbers are still in the same ballpark. The vast majority
+of publicly trusted TLS web server certificates are issued by a handful of CAs."><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/webpki/caa/"><meta property="og:site_name" content="ACME and the WebPKI"><meta property="og:title" content="CAA (Certificate Authority Authorization)"><meta property="og:description" content="CAA (Certificate Authority Authorization) # CAA (Certificate Authority Authorization) is a DNS record type that specifies which CAs (Certificate Authorities) are allowed to issue certificates for a domain name. CAA can also set additional constraints related to certificate issuances. Compliance requirements oblige CAs to honor CAA records when issuing certificates.
+DV (Domain Validated) certificates issued by publicly trusted CAs are all equally trusted. Browsers treat certificates issued by popular CAs the same way as certificates issued by small regional CAs. As demonstrated by this article from 2022, 98% of all publicly trusted TLS web server certificates are issued by the top 5 CAs (out of 200+ CAs). Current numbers are still in the same ballpark. The vast majority of publicly trusted TLS web server certificates are issued by a handful of CAs."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="webpki"><title>CAA (Certificate Authority Authorization) | ACME and the WebPKI</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/webpki/caa/><link rel=stylesheet href=/book.min.e9f68c3fff3d8236a489d16a9caf6de5e4d1a29c20eb4b5524e42cd30be4d319.css integrity="sha256-6faMP/89gjakidFqnK9t5eTRopwg60tVJOQs0wvk0xk=" crossorigin=anonymous><script async src="https://www.googletagmanager.com/gtag/js?id=G-0LW86NH9LL"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-0LW86NH9LL")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>ACME and the WebPKI</span></a></h2><ul><li><a href=/getting-started/>Getting Started with ACME</a></li><li><a href=/acme/>The ACME Protocol</a><ul><li><a href=/acme/overview/>Overview</a></li><li><a href=/acme/challenges/>Challenge Types</a></li><li><a href=/acme/eab/>EAB (External Account Binding)</a></li><li><a href=/acme/ari/>ARI (ACME Renewal Information)</a></li></ul></li><li><a href=/webpki/>The WebPKI</a><ul><li><a href=/webpki/cert/>Anatomy of a Certificate</a></li><li><a href=/webpki/cert-lifetime/>Certificate Lifetime</a></li><li><a href=/webpki/caa/ class=active>CAA (Certificate Authority Authorization)</a></li><li><a href=/webpki/mpic/>MPIC (Multi-Perspective Issuance Corroboration)</a></li><li><a href=/webpki/ct/>CT (Certificate Transparency)</a></li></ul></li></ul><ul><li><a href=https://github.com/fhchstr/acmeprotocol.dev target=_blank rel=noopener>Contribute to this Website</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>CAA (Certificate Authority Authorization)</h3><label for=toc-control></label></div></header><article class="markdown book-article"><h1 id=caa-certificate-authority-authorization>CAA (Certificate Authority Authorization)
+<a class=anchor href=#caa-certificate-authority-authorization>#</a></h1><p>CAA (Certificate Authority Authorization) is a
+<a href=https://en.wikipedia.org/wiki/List_of_DNS_record_types>DNS record type</a> that
+specifies which CAs (Certificate Authorities) are allowed to issue certificates
+for a domain name. CAA can also set additional constraints related to
+certificate issuances.
+<a href=https://github.com/cabforum/servercert/blob/main/docs/BR.md#3228-caa-records>Compliance requirements</a>
+<strong>oblige CAs to honor CAA records</strong> when issuing certificates.</p><p>DV (Domain Validated) certificates issued by publicly trusted CAs are all
+equally trusted. Browsers treat certificates issued by popular CAs the same way
+as certificates issued by small regional CAs. As demonstrated by
+<a href="https://unmitigatedrisk.com/?p=673">this article from 2022</a>, <strong>98% of all
+publicly trusted TLS web server certificates are issued by the top 5 CAs</strong> (out
+of 200+ CAs). Current numbers are still in the same ballpark. The vast majority
+of publicly trusted TLS web server certificates are issued by a handful of CAs.</p><p>If you know you will only request certificates from a few selected CAs, <strong>CAA is
+a cheap and easy way to prevent other CAs from mistakenly issuing certificates
+for your domains</strong>. CAA alone is not sufficient. You should still monitor
+<a href=/webpki/ct/>CT (Certificate Transparency)</a> logs to detect misissued
+certificates.</p><p>Here is how a CAA record looks like. This one only authorizes
+<a href=https://letsencrypt.org/>Let&rsquo;s Encrypt</a> and
+<a href=https://pki.goog/>Google Trust Services</a> to issue certificates for
+<code>acmeprotocol.dev</code> and its subdomains (assuming there are no other CAA records
+set on subdomains).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ dig +short acmeprotocol.dev CAA
+</span></span><span style=display:flex><span><span style=color:#ae81ff>0</span> issue <span style=color:#e6db74>&#34;letsencrypt.org&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>0</span> issue <span style=color:#e6db74>&#34;pki.goog&#34;</span>
+</span></span></code></pre></div><p>The most common additional constraints that CAA can set are:</p><ul><li><code>issuewild</code>, which is like <code>issue</code> but specific to
+<a href=https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/>wildcard domain names</a>.</li><li><code>validationmethods</code>, which specify which <a href=/acme/challenges/>challenge types</a>
+are allowed to prove domain control.</li><li><code>accounturi</code>, which specifies which accounts (e.g.
+<a href=/acme/overview/#account>ACME accounts</a>) are allowed to request certificates.</li><li><code>cansignhttpexchanges</code>, which specifies whether
+<a href=https://wicg.github.io/webpackage/draft-yasskin-http-origin-signed-responses.html>SXG certificates</a>
+can be issued.</li></ul><p>See
+<a href=https://letsencrypt.org/docs/caa/>this excellent article from Let&rsquo;s Encrypt</a>
+for more information about CAA and <a href=https://sslmate.com/caa/>https://sslmate.com/caa/</a> to get guidance for
+configuring CAA.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script><i><a href=https://acmeprotocol.dev/>acmeprotocol.dev</a> is a side project from <a href=https://www.linkedin.com/in/fhchstr/>Fabien Hochstrasser</a>. The opinions expressed on this website are my own and do not reflect the views of my current or former employers.</i></footer><label for=menu-control class="hidden book-menu-overlay"></label></div></main></body></html>

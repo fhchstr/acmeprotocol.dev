@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>The WebPKI on ACME and the WebPKI</title><link>http://localhost:1313/webpki/</link><description>Recent content in The WebPKI on ACME and the WebPKI</description><generator>Hugo</generator><language>en-us</language><atom:link href="http://localhost:1313/webpki/index.xml" rel="self" type="application/rss+xml"/><item><title>Anatomy of a Certificate</title><link>http://localhost:1313/webpki/cert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/webpki/cert/</guid><description>&lt;h1 id="analogy-with-the-physical-world">
+ Analogy with the Physical World
+ &lt;a class="anchor" href="#analogy-with-the-physical-world">#&lt;/a>
+&lt;/h1>
+&lt;p>&lt;strong>Digital certificates are like identification documents&lt;/strong> (passport, identity
+card, driver license, employee badge, library membership card, retail store
+fidelity card, etc.), but for websites. They tie a name to an identity, they
+hold additional metadata, they are issued by some (more or less widely
+recognized/trusted) entity, and they can be used/accepted in specific
+circumstances.&lt;/p>
+&lt;p>Digital certificates are issued by CAs (Certificate - or Certification -
+Authorities). CAs can either be public or private. Certificates issued by
+publicly trusted CAs are trusted/accepted by default by major web browsers and
+operating systems (like government-issued passports). Certificate issued by
+private CAs are only trusted/accepted by clients who agreed to trust them (like
+retail store fidelity cards).&lt;/p></description></item><item><title>Certificate Lifetime</title><link>http://localhost:1313/webpki/cert-lifetime/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/webpki/cert-lifetime/</guid><description>&lt;h1 id="certificate-lifetime">
+ Certificate Lifetime
+ &lt;a class="anchor" href="#certificate-lifetime">#&lt;/a>
+&lt;/h1>
+&lt;p>The maximal allowed validity of certificates is set by (continuously evolving)
+&lt;a href="http://localhost:1313/webpki/">WebPKI&lt;/a> requirements that all publicly trusted CAs must comply with.
+Here is the evolution of the maximal allowed validity of TLS web server
+certificates.&lt;/p>
+&lt;ul>
+&lt;li>In 2012, it was set to 60 months (5 years).&lt;/li>
+&lt;li>In 2015, it was reduced to 39 months (3 years and 3 months).&lt;/li>
+&lt;li>In 2018, it went down to 825 days (a bit more than 2 years).&lt;/li>
+&lt;li>In 2021, it was reduced further to 398 days (1 year and 1 month).&lt;/li>
+&lt;li>In 2025, a plan
+(&lt;a href="https://github.com/cabforum/servercert/pull/553">ballot SC-081&lt;/a>) to
+gradually reduce the maximal allowed validity was endorsed by all major web
+browsers and most publicly trusted CAs as follows:
+&lt;ul>
+&lt;li>In 2026, it will be reduced to 200 days (to allow for a half-yearly renewal
+cadence)&lt;/li>
+&lt;li>In 2027, it will be reduced to 100 days (to allow for a quarterly renewal
+cadence)&lt;/li>
+&lt;li>In 2029, it will be reduced to 47 days (to allow for a monthly renewal
+cadence)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a href="https://pki.goog/">Google Trust Services&lt;/a> and
+&lt;a href="https://letsencrypt.org">Let&amp;rsquo;s Encrypt&lt;/a> have always set the maximal validity of
+their certificates below 100 days, as shown by
+&lt;a href="https://letsencrypt.org/2015/11/09/why-90-days/">this article published in 2015&lt;/a>
+by Let&amp;rsquo;s Encrypt.&lt;/p></description></item><item><title>CAA (Certificate Authority Authorization)</title><link>http://localhost:1313/webpki/caa/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/webpki/caa/</guid><description>&lt;h1 id="caa-certificate-authority-authorization">
+ CAA (Certificate Authority Authorization)
+ &lt;a class="anchor" href="#caa-certificate-authority-authorization">#&lt;/a>
+&lt;/h1>
+&lt;p>CAA (Certificate Authority Authorization) is a
+&lt;a href="https://en.wikipedia.org/wiki/List_of_DNS_record_types">DNS record type&lt;/a> that
+specifies which CAs (Certificate Authorities) are allowed to issue certificates
+for a domain name. CAA can also set additional constraints related to
+certificate issuances.
+&lt;a href="https://github.com/cabforum/servercert/blob/main/docs/BR.md#3228-caa-records">Compliance requirements&lt;/a>
+&lt;strong>oblige CAs to honor CAA records&lt;/strong> when issuing certificates.&lt;/p>
+&lt;p>DV (Domain Validated) certificates issued by publicly trusted CAs are all
+equally trusted. Browsers treat certificates issued by popular CAs the same way
+as certificates issued by small regional CAs. As demonstrated by
+&lt;a href="https://unmitigatedrisk.com/?p=673">this article from 2022&lt;/a>, &lt;strong>98% of all
+publicly trusted TLS web server certificates are issued by the top 5 CAs&lt;/strong> (out
+of 200+ CAs). Current numbers are still in the same ballpark. The vast majority
+of publicly trusted TLS web server certificates are issued by a handful of CAs.&lt;/p></description></item><item><title>MPIC (Multi-Perspective Issuance Corroboration)</title><link>http://localhost:1313/webpki/mpic/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/webpki/mpic/</guid><description>&lt;h1 id="mpic-multi-perspective-issuance-corroboration">
+ MPIC (Multi-Perspective Issuance Corroboration)
+ &lt;a class="anchor" href="#mpic-multi-perspective-issuance-corroboration">#&lt;/a>
+&lt;/h1>
+&lt;p>Before issuing certificates, CAs (Certificate Authorities) verify that
+requesters control the identifiers (domain name or IP address) requested to be
+included. Different &lt;a href="http://localhost:1313/acme/challenges/">challenge types&lt;/a> exist to enable
+requesters to prove they control an identifier.&lt;/p>
+&lt;p>All these challenge types require the CA to query a network resource via DNS or
+HTTP and verify that it holds the expected value. The queries made by the CA may
+be performed over unauthenticated channels. This means that &lt;strong>they are
+vulnerable to network hijacking attacks&lt;/strong>.&lt;/p></description></item><item><title>CT (Certificate Transparency)</title><link>http://localhost:1313/webpki/ct/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/webpki/ct/</guid><description>&lt;h1 id="ct-certificate-transparency">
+ CT (Certificate Transparency)
+ &lt;a class="anchor" href="#ct-certificate-transparency">#&lt;/a>
+&lt;/h1>
+&lt;p>The &amp;ldquo;&lt;a href="https://en.wikipedia.org/wiki/Trust,_but_verify">Trust, but verify&lt;/a>&amp;rdquo;
+proverb fits particularly well the WebPKI. Clients trust CAs to only issue
+certificates after they&amp;rsquo;ve performed the necessary verifications. But what if
+the CA makes a mistake or if someone manipulates the CA into issuing
+certificates for a domain you own? &lt;br>
+&lt;strong>You would certainly want to know about it, wouldn&amp;rsquo;t you?&lt;/strong>&lt;/p>
+&lt;p>That&amp;rsquo;s exactly what CT (Certificate Transparency) is for! Publicly trusted CAs
+are obliged to submit all certificates they issue to CT logs, which are
+cryptographically verifiable &lt;strong>append-only data stores&lt;/strong> based on
+&lt;a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle trees&lt;/a>, which is the same
+technology that underpins the
+&lt;a href="https://en.wikipedia.org/wiki/Bitcoin">Bitcoin cryptocurrency&lt;/a>. This system
+works because
+&lt;a href="https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency#browser_requirements">most web browsers&lt;/a>
+&lt;strong>only trust certificates submitted to CT logs&lt;/strong>.&lt;/p></description></item></channel></rss>

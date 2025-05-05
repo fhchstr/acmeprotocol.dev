@@ -1,0 +1,42 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  MPIC (Multi-Perspective Issuance Corroboration)
+  #
+
+Before issuing certificates, CAs (Certificate Authorities) verify that
+requesters control the identifiers (domain name or IP address) requested to be
+included. Different challenge types exist to enable
+requesters to prove they control an identifier.
+All these challenge types require the CA to query a network resource via DNS or
+HTTP and verify that it holds the expected value. The queries made by the CA may
+be performed over unauthenticated channels. This means that they are
+vulnerable to network hijacking attacks."><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/webpki/mpic/"><meta property="og:site_name" content="ACME and the WebPKI"><meta property="og:title" content="MPIC (Multi-Perspective Issuance Corroboration)"><meta property="og:description" content="MPIC (Multi-Perspective Issuance Corroboration) # Before issuing certificates, CAs (Certificate Authorities) verify that requesters control the identifiers (domain name or IP address) requested to be included. Different challenge types exist to enable requesters to prove they control an identifier.
+All these challenge types require the CA to query a network resource via DNS or HTTP and verify that it holds the expected value. The queries made by the CA may be performed over unauthenticated channels. This means that they are vulnerable to network hijacking attacks."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="webpki"><title>MPIC (Multi-Perspective Issuance Corroboration) | ACME and the WebPKI</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/webpki/mpic/><link rel=stylesheet href=/book.min.e9f68c3fff3d8236a489d16a9caf6de5e4d1a29c20eb4b5524e42cd30be4d319.css integrity="sha256-6faMP/89gjakidFqnK9t5eTRopwg60tVJOQs0wvk0xk=" crossorigin=anonymous><script async src="https://www.googletagmanager.com/gtag/js?id=G-0LW86NH9LL"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-0LW86NH9LL")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>ACME and the WebPKI</span></a></h2><ul><li><a href=/getting-started/>Getting Started with ACME</a></li><li><a href=/acme/>The ACME Protocol</a><ul><li><a href=/acme/overview/>Overview</a></li><li><a href=/acme/challenges/>Challenge Types</a></li><li><a href=/acme/eab/>EAB (External Account Binding)</a></li><li><a href=/acme/ari/>ARI (ACME Renewal Information)</a></li></ul></li><li><a href=/webpki/>The WebPKI</a><ul><li><a href=/webpki/cert/>Anatomy of a Certificate</a></li><li><a href=/webpki/cert-lifetime/>Certificate Lifetime</a></li><li><a href=/webpki/caa/>CAA (Certificate Authority Authorization)</a></li><li><a href=/webpki/mpic/ class=active>MPIC (Multi-Perspective Issuance Corroboration)</a></li><li><a href=/webpki/ct/>CT (Certificate Transparency)</a></li></ul></li></ul><ul><li><a href=https://github.com/fhchstr/acmeprotocol.dev target=_blank rel=noopener>Contribute to this Website</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>MPIC (Multi-Perspective Issuance Corroboration)</h3><label for=toc-control></label></div></header><article class="markdown book-article"><h1 id=mpic-multi-perspective-issuance-corroboration>MPIC (Multi-Perspective Issuance Corroboration)
+<a class=anchor href=#mpic-multi-perspective-issuance-corroboration>#</a></h1><p>Before issuing certificates, CAs (Certificate Authorities) verify that
+requesters control the identifiers (domain name or IP address) requested to be
+included. Different <a href=/acme/challenges/>challenge types</a> exist to enable
+requesters to prove they control an identifier.</p><p>All these challenge types require the CA to query a network resource via DNS or
+HTTP and verify that it holds the expected value. The queries made by the CA may
+be performed over unauthenticated channels. This means that <strong>they are
+vulnerable to network hijacking attacks</strong>.</p><p>If attackers can influence how packets are routed on the network, <strong>they could
+successfully solve ACME challenges</strong> by redirecting the validation requests made
+by the CA to servers they control, and thus, manipulate the CA into issuing
+certificates for identifiers they don&rsquo;t really control.</p><p><strong>This is not just a theoretical risk</strong>. Researchers have already proven
+<a href=https://www.usenix.org/conference/usenixsecurity18/presentation/birge-lee>this is possible</a>.</p><p>To mitigate such attacks,
+<a href=https://letsencrypt.org/2020/02/19/multi-perspective-validation/>Let&rsquo;s Encrypt</a>
+and
+<a href=https://security.googleblog.com/2023/05/google-trust-services-acme-api_0503894189.html>Google Trust Services</a>
+started sending their <strong>validation requests from multiple vantage points
+worldwide</strong> in 2020 and 2023, respectively. In parallel, a new
+<a href=https://github.com/cabforum/servercert/blob/main/docs/BR.md#3229-multi-perspective-issuance-corroboration>compliance requirement</a>
+was adopted to require all publicly trusted CAs to do it by 2025-2026. See the
+announcement on the
+<a href=https://security.googleblog.com/2025/03/new-security-requirements-adopted-by.html>Google Security Blog</a>
+for more information.</p><p>Sending validation requests from multiple vantage points worldwide and
+corroborating the results (by requiring that the majority of the requests
+results in successful challenge validations) has been proven to be an effective
+defense mechanism against network hijacking attacks.</p><p>To ensure successful MPIC validations, sites must <strong>allow traffic from any IP
+address</strong>, both on their HTTP and DNS servers, since validation requests from
+CAs may originate from anywhere. For security reasons, CAs do not disclose their
+source IP addresses, and they may change them without notice.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script><i><a href=https://acmeprotocol.dev/>acmeprotocol.dev</a> is a side project from <a href=https://www.linkedin.com/in/fhchstr/>Fabien Hochstrasser</a>. The opinions expressed on this website are my own and do not reflect the views of my current or former employers.</i></footer><label for=menu-control class="hidden book-menu-overlay"></label></div></main></body></html>

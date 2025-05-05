@@ -1,0 +1,131 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  Certificate Lifetime
+  #
+
+The maximal allowed validity of certificates is set by (continuously evolving)
+WebPKI requirements that all publicly trusted CAs must comply with.
+Here is the evolution of the maximal allowed validity of TLS web server
+certificates.
+
+In 2012, it was set to 60 months (5 years).
+In 2015, it was reduced to 39 months (3 years and 3 months).
+In 2018, it went down to 825 days (a bit more than 2 years).
+In 2021, it was reduced further to 398 days (1 year and 1 month).
+In 2025, a plan
+(ballot SC-081) to
+gradually reduce the maximal allowed validity was endorsed by all major web
+browsers and most publicly trusted CAs as follows:
+
+In 2026, it will be reduced to 200 days (to allow for a half-yearly renewal
+cadence)
+In 2027, it will be reduced to 100 days (to allow for a quarterly renewal
+cadence)
+In 2029, it will be reduced to 47 days (to allow for a monthly renewal
+cadence)
+
+
+
+Google Trust Services and
+Let&rsquo;s Encrypt have always set the maximal validity of
+their certificates below 100 days, as shown by
+this article published in 2015
+by Let&rsquo;s Encrypt."><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/webpki/cert-lifetime/"><meta property="og:site_name" content="ACME and the WebPKI"><meta property="og:title" content="Certificate Lifetime"><meta property="og:description" content="Certificate Lifetime # The maximal allowed validity of certificates is set by (continuously evolving) WebPKI requirements that all publicly trusted CAs must comply with. Here is the evolution of the maximal allowed validity of TLS web server certificates.
+In 2012, it was set to 60 months (5 years). In 2015, it was reduced to 39 months (3 years and 3 months). In 2018, it went down to 825 days (a bit more than 2 years). In 2021, it was reduced further to 398 days (1 year and 1 month). In 2025, a plan (ballot SC-081) to gradually reduce the maximal allowed validity was endorsed by all major web browsers and most publicly trusted CAs as follows: In 2026, it will be reduced to 200 days (to allow for a half-yearly renewal cadence) In 2027, it will be reduced to 100 days (to allow for a quarterly renewal cadence) In 2029, it will be reduced to 47 days (to allow for a monthly renewal cadence) Google Trust Services and Let’s Encrypt have always set the maximal validity of their certificates below 100 days, as shown by this article published in 2015 by Let’s Encrypt."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="webpki"><title>Certificate Lifetime | ACME and the WebPKI</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/webpki/cert-lifetime/><link rel=stylesheet href=/book.min.e9f68c3fff3d8236a489d16a9caf6de5e4d1a29c20eb4b5524e42cd30be4d319.css integrity="sha256-6faMP/89gjakidFqnK9t5eTRopwg60tVJOQs0wvk0xk=" crossorigin=anonymous><script async src="https://www.googletagmanager.com/gtag/js?id=G-0LW86NH9LL"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-0LW86NH9LL")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>ACME and the WebPKI</span></a></h2><ul><li><a href=/getting-started/>Getting Started with ACME</a></li><li><a href=/acme/>The ACME Protocol</a><ul><li><a href=/acme/overview/>Overview</a></li><li><a href=/acme/challenges/>Challenge Types</a></li><li><a href=/acme/eab/>EAB (External Account Binding)</a></li><li><a href=/acme/ari/>ARI (ACME Renewal Information)</a></li></ul></li><li><a href=/webpki/>The WebPKI</a><ul><li><a href=/webpki/cert/>Anatomy of a Certificate</a></li><li><a href=/webpki/cert-lifetime/ class=active>Certificate Lifetime</a></li><li><a href=/webpki/caa/>CAA (Certificate Authority Authorization)</a></li><li><a href=/webpki/mpic/>MPIC (Multi-Perspective Issuance Corroboration)</a></li><li><a href=/webpki/ct/>CT (Certificate Transparency)</a></li></ul></li></ul><ul><li><a href=https://github.com/fhchstr/acmeprotocol.dev target=_blank rel=noopener>Contribute to this Website</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Certificate Lifetime</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#certificate-lifetime>Certificate Lifetime</a><ul><li><a href=#why>Why Is It Shrinking ?</a></li><li><a href=#what-is-in-scope->What is in Scope ?</a></li><li><a href=#what-should-i-do->What Should I Do ?</a></li><li><a href=#short-lived-certificates>Short-lived Certificates</a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=certificate-lifetime>Certificate Lifetime
+<a class=anchor href=#certificate-lifetime>#</a></h1><p>The maximal allowed validity of certificates is set by (continuously evolving)
+<a href=/webpki/>WebPKI</a> requirements that all publicly trusted CAs must comply with.
+Here is the evolution of the maximal allowed validity of TLS web server
+certificates.</p><ul><li>In 2012, it was set to 60 months (5 years).</li><li>In 2015, it was reduced to 39 months (3 years and 3 months).</li><li>In 2018, it went down to 825 days (a bit more than 2 years).</li><li>In 2021, it was reduced further to 398 days (1 year and 1 month).</li><li>In 2025, a plan
+(<a href=https://github.com/cabforum/servercert/pull/553>ballot SC-081</a>) to
+gradually reduce the maximal allowed validity was endorsed by all major web
+browsers and most publicly trusted CAs as follows:<ul><li>In 2026, it will be reduced to 200 days (to allow for a half-yearly renewal
+cadence)</li><li>In 2027, it will be reduced to 100 days (to allow for a quarterly renewal
+cadence)</li><li>In 2029, it will be reduced to 47 days (to allow for a monthly renewal
+cadence)</li></ul></li></ul><p><a href=https://pki.goog/>Google Trust Services</a> and
+<a href=https://letsencrypt.org>Let&rsquo;s Encrypt</a> have always set the maximal validity of
+their certificates below 100 days, as shown by
+<a href=https://letsencrypt.org/2015/11/09/why-90-days/>this article published in 2015</a>
+by Let&rsquo;s Encrypt.</p><h2 id=why>Why Is It Shrinking ?
+<a class=anchor href=#why>#</a></h2><p>There are many reasons for reducing the maximal allowed validity of
+certificates:</p><ol><li>Certificates represent a <strong>point in time</strong> state of reality, which may
+diverge over time. For instance, domain owners can legitimately request
+certificates with maximal validity 1 day prior their domain name registration
+expires. See <a href=https://insecure.design/>https://insecure.design/</a>, which explains this problem in depth.</li><li>To <strong>increase the agility</strong> of clients by forcing them to automate their
+certificate lifecycle management. Even if this is an existing expectation,
+history has shown that too many clients lack the ability to quickly rotate
+their certificates in case of emergency such as the
+<a href=https://www.heartbleed.com/>Heartbleed</a> vulnerability or
+<a href=https://blog.mozilla.org/security/2025/03/12/enhancing-ca-practices-key-updates-in-mozilla-root-store-policy-v3-0/>mandated revocations</a>.</li><li>To <strong>reduce reliance on certificate revocation</strong>, which is imperfect
+(<a href=https://www.imperialviolet.org/2014/04/29/revocationagain.html>[1]</a>,
+<a href=https://scotthelme.co.uk/revocation-is-broken/>[2]</a>). Web browsers
+implemented mechanisms such as
+<a href=https://www.chromium.org/Home/chromium-security/crlsets/>CRLSets</a> and
+<a href=https://blog.mozilla.org/security/2020/01/09/crlite-part-1-all-web-pki-revocations-compressed/>CRLite</a>
+to work around the limitations of certificates revocation, but these
+mechanisms only solve the problem for web browsers. Other certificate
+consumers are still subject to the imperfections of certificate revocations.
+Some clients don&rsquo;t even check the revocation status of certificates!</li><li>To facilitate the <strong>swift deprecation of obsolete cryptographic algorithms</strong>.
+The lengthy process of phasing out SHA-1 highlighted the need for a more
+agile ecosystem. This urgency is amplified by the emergence of quantum
+computers, which threaten to render the cryptographic algorithms currently
+used in certificates obsolete.</li><li>To <strong>transition inappropriate use cases to private CAs</strong>. Too many systems
+use publicly trusted certificates because it is easy, and not because they
+actually need publicly trusted certificates. Since these systems often lack
+quick update capabilities, they are slowing down innovations in the WebPKI.
+Changes and improvements are hard to introduce because they risk breaking
+such ossified systems who would be better served by private CAs.</li></ol><p>The validity of certificates <strong><ins>is not</ins></strong> shrinking to enable CAs to
+make more money by selling more certificates. If they haven&rsquo;t already, CAs will
+have to adapt their pricing models to offer a subscription program with
+unlimited certificates for the paid time period. If they don&rsquo;t, they will lose
+their customers to competitors or free CAs such as
+<a href=https://pki.goog>Google Trust Services</a> and
+<a href=https://letsencrypt.org>Let&rsquo;s Encrypt</a>.</p><h2 id=what-is-in-scope->What is in Scope ?
+<a class=anchor href=#what-is-in-scope->#</a></h2><p>The timeline for reducing the maximal allowed validity of certificates described
+on this page <strong>only affects publicly trusted TLS web server certificates</strong>.
+Other certificate types, such as code signing, document signing, or email
+protection certificates are not subject to the same timeline, but note that they
+may each have their own timeline for reducing the maximal allowed certificate
+validity.</p><p>The DCV (Domain Control Validation) reuse periods are also being reduced. By
+2029, valid authorizations for domain names will only be reusable for 10 days.
+Passed that delay, certificate applicants will have to prove again that they
+control the domains in question when requesting new certificates.</p><p><strong>Other reuse periods specific to OV, EV, or QWAC certificates are not
+affected</strong>. When requesting such certificates, applicants will have to
+frequently prove that they control each domain name, but they won&rsquo;t have to
+prove as frequently that the legal entity who owns a domain name is still the
+same/still exists.</p><p>Private CAs are not affected since they do not have to comply with the WebPKI
+requirements.</p><h2 id=what-should-i-do->What Should I Do ?
+<a class=anchor href=#what-should-i-do->#</a></h2><p>You must automate your certificate lifecycle management using <a href=/acme/>ACME</a> or
+other automation methods supported by your CA. The maximal allowed validity is
+shrinking gradually to give enough time to certificate consumers to automate
+their certificate lifecycle management. Get ahead of the wave and do it now!</p><p>If automation is not possible, ask yourself whether you really need publicly
+trusted certificates. In general, publicly trusted certificates are only needed
+for public-facing websites exposed to the Internet since their visitors are very
+diverse/unknown. Internal websites can use certificates issued by private CAs
+since it should be possible to distribute the private CA certificate in the
+trust store of all their visitors.</p><p><strong>Client authentication certificates must also migrate to private CAs !</strong>
+Publicly trusted WebPKI certificates are only for servers. The
+<a href=https://googlechrome.github.io/chromerootprogram/#322-pki-hierarchies-included-in-the-chrome-root-store>Chrome Root Store Policy</a>
+already announced that publicly trusted CAs will be forbidden to issue
+<code>clientAuth</code> certificates in 2026.</p><p>It is now easier than ever to spin up private CAs using
+<a href=https://cloud.google.com/security/products/certificate-authority-service>Google Cloud&rsquo;s Certificate Authority Service</a>
+for example, or by partnering with security vendors that can manage private CAs
+for you.</p><p>If you operate appliances that don&rsquo;t support automation, pressure your vendors
+to add support for it. If they don&rsquo;t, they will loose all their customers since
+the lifetime reduction is enforced by all publicly trusted CAs. Alternatively,
+install a reverse HTTPS proxy which supports certificate automation in front of
+legacy systems. See <a href=/getting-started/>Getting started with ACME</a> for guidance.</p><p>If your CA doesn&rsquo;t support any automation method, leave them. For the record,
+the
+<a href=https://googlechrome.github.io/chromerootprogram/#331-automation-support>Chrome Root Store Policy</a>
+requires all new CAs to support automation. This requirement will eventually be
+enforced for all CAs.</p><h2 id=short-lived-certificates>Short-lived Certificates
+<a class=anchor href=#short-lived-certificates>#</a></h2><p>Short-lived certificates are valid for less than 7 days (or 10 days if they were
+issued before 2026-03-15). <strong>Short-lived certificates don&rsquo;t have to be
+revocable</strong>. Since revocation is imperfect, status information can take days to
+become globally consistent when certificates are revoked. Some clients even
+forget to query the revocation status of certificates. Short-lived certificates
+solve this problem since <strong>they are guaranteed to become invalid after just a
+few days</strong>.</p><p>Let&rsquo;s Encrypt
+<a href=https://letsencrypt.org/2025/01/16/6-day-and-ip-certs/>announced support for short-lived certificates</a>
+and declared that these certificates will also support IP addresses in addition
+to domain names.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script><i><a href=https://acmeprotocol.dev/>acmeprotocol.dev</a> is a side project from <a href=https://www.linkedin.com/in/fhchstr/>Fabien Hochstrasser</a>. The opinions expressed on this website are my own and do not reflect the views of my current or former employers.</i></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#certificate-lifetime>Certificate Lifetime</a><ul><li><a href=#why>Why Is It Shrinking ?</a></li><li><a href=#what-is-in-scope->What is in Scope ?</a></li><li><a href=#what-should-i-do->What Should I Do ?</a></li><li><a href=#short-lived-certificates>Short-lived Certificates</a></li></ul></li></ul></nav></div></aside></main></body></html>

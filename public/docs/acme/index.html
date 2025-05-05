@@ -1,0 +1,61 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  What is ACME ?
+  #
+
+Automatic Certificate Management Environment (ACME) is a standardized
+communication protocol to automate the process of obtaining and renewing
+digital certificates, and automate the process of proving domain control,
+which is a prerequisite for obtaining publicly trusted X.509 TLS certificates
+for web servers.
+
+  Why use ACME ?
+  #
+
+Because it makes HTTPS easy and automatic. ACME enables you to quickly and
+easily get TLS web server (serverAuth) certificates for your HTTPS websites.
+ACME eliminates manual hassle and the risk of expired certificates!"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/acme/"><meta property="og:site_name" content="ACME and the WebPKI"><meta property="og:title" content="The ACME Protocol"><meta property="og:description" content="What is ACME ? # Automatic Certificate Management Environment (ACME) is a standardized communication protocol to automate the process of obtaining and renewing digital certificates, and automate the process of proving domain control, which is a prerequisite for obtaining publicly trusted X.509 TLS certificates for web servers.
+Why use ACME ? # Because it makes HTTPS easy and automatic. ACME enables you to quickly and easily get TLS web server (serverAuth) certificates for your HTTPS websites. ACME eliminates manual hassle and the risk of expired certificates!"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>The ACME Protocol | ACME and the WebPKI</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/acme/><link rel=stylesheet href=/book.min.e9f68c3fff3d8236a489d16a9caf6de5e4d1a29c20eb4b5524e42cd30be4d319.css integrity="sha256-6faMP/89gjakidFqnK9t5eTRopwg60tVJOQs0wvk0xk=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.be2400cb18f78f9b5d87936115179f22f4fffdc72d4d6ead5ec33b399bfa3d27.js integrity="sha256-viQAyxj3j5tdh5NhFRefIvT//cctTW6tXsM7OZv6PSc=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/acme/index.xml title="ACME and the WebPKI"></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>ACME and the WebPKI</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=https://github.com/fhchstr/acmeprotocol.dev target=_blank rel=noopener>Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>The ACME Protocol</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#what-is-acme->What is ACME ?</a></li><li><a href=#why-use-acme->Why use ACME ?</a></li><li><a href=#how-much-does-acme-cost->How much does ACME cost ?</a></li><li><a href=#why-do-some-cas-charge-money-for-tls-web-server-certificates->Why do some CAs charge money for TLS web server certificates ?</a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h2 id=what-is-acme->What is ACME ?
+<a class=anchor href=#what-is-acme->#</a></h2><p><strong>Automatic Certificate Management Environment (ACME)</strong> is a standardized
+communication protocol to automate the process of obtaining and renewing
+<strong>digital certificates</strong>, and automate the process of proving domain control,
+which is a prerequisite for obtaining publicly trusted X.509 TLS certificates
+for web servers.</p><h2 id=why-use-acme->Why use ACME ?
+<a class=anchor href=#why-use-acme->#</a></h2><p>Because it makes <strong>HTTPS easy and automatic</strong>. ACME enables you to quickly and
+easily get TLS web server (<code>serverAuth</code>) certificates for your HTTPS websites.
+ACME eliminates manual hassle and the risk of expired certificates!</p><h2 id=how-much-does-acme-cost->How much does ACME cost ?
+<a class=anchor href=#how-much-does-acme-cost->#</a></h2><p>ACME is a standardized protocol, so it cannot &ldquo;cost&rdquo; anything.</p><p>Some publicly trusted ACME CAs (Certificate Authorities) such as
+<a href=https://pki.goog>Google Trust Services</a> and
+<a href=https://letsencrypt.org>Let&rsquo;s Encrypt</a> <strong>provide TLS web server certificates
+for free</strong>. Their certificates are secure and a great fit for all websites.</p><p><strong>You shouldn&rsquo;t have to pay for TLS web server certificates</strong>, no matter what
+kind of website you operate. These free Domain Validated (DV) TLS web server
+certificates provide the same security as paid certificates.</p><h2 id=why-do-some-cas-charge-money-for-tls-web-server-certificates->Why do some CAs charge money for TLS web server certificates ?
+<a class=anchor href=#why-do-some-cas-charge-money-for-tls-web-server-certificates->#</a></h2><blockquote class="book-hint info"><p>This answer is only about <strong>publicly trusted TLS web server certificates</strong>. It
+does not apply to private CAs nor other types of certificates like document/code
+signing or client authentication certificates.</p></blockquote><p><strong>Short answer</strong>: Because people who do not know better are still willing to pay
+for TLS web server certificates.</p><p><strong>Long answer</strong>: Paying for services related to TLS web server certificates,
+such as 24/7 support, higher quota limits, or access to monitoring/visualization
+dashboards, is fair and justified.</p><p>Some CAs offer, and charge for, OV (Organization Validated) or EV (Extended
+Validation) certificates. Unlike DV (Domain Validated) certificates, which can
+be issued within seconds in a fully automated manner thanks to ACME, OV and EV
+certificates require additional validations, which are generally performed by
+&ldquo;<a href="https://github.com/cabforum/servercert/blob/main/docs/BR.md#:~:text=Validation%20Specialist%3A">Validation Specialists</a>&rdquo;.
+These additional manual validations justify the extra costs for OV and EV
+certificates.</p><p><strong>OV and EV certificates are not more secure than DV certificates</strong>. They use
+the same technology and cryptographic algorithms as DV certificates. Some
+regulatory frameworks may require the use of OV or EV certificates in certain
+industries, but if you don&rsquo;t have to comply with such regulations, <strong>just use
+free DV certificates</strong>. OV and EV certificates include additional fields and
+attributes, such as the name, locality, or even the VAT number of the entity
+that requested the certificate. Even if this additional information was
+thoroughly validated by the CA, web browsers ignore it. Thus, there is no point
+in paying extra money for OV or EV certificates.</p><p>HTTPS doesn&rsquo;t guarantee that a site is secure or that the entity that operates
+it is trustworthy. As noted in
+<a href=https://blog.chromium.org/2023/05/an-update-on-lock-icon.html>this Chromium blog post</a>,
+HTTPS only guarantees that you are connecting to the site you intended to and
+that <strong>the connection is secure</strong>. These are extremely important guarantees that
+underpin the Internet&rsquo;s security.</p><p>Finally, some CAs charge additional fees to include additional subdomains,
+domain names, or wildcard domain names in certificates. This is not justified
+for DV certificates automatically issued using ACME. Don&rsquo;t fall for it. Use free
+DV certificates instead.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#what-is-acme->What is ACME ?</a></li><li><a href=#why-use-acme->Why use ACME ?</a></li><li><a href=#how-much-does-acme-cost->How much does ACME cost ?</a></li><li><a href=#why-do-some-cas-charge-money-for-tls-web-server-certificates->Why do some CAs charge money for TLS web server certificates ?</a></li></ul></li></ul></nav></div></aside></main></body></html>

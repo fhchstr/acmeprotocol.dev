@@ -1,0 +1,69 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  ACME Challenge Types
+  #
+
+ACME challenges provide the CA with assurance that certificate requesters
+control the identifiers (domain name or IP address) requested to be included in
+the certificate. To successfully complete challenges, clients must both prove
+that they control the identifiers in question and that they hold the private key
+of the account key pair used to respond to the challenges.
+ACME challenges typically require the client to set up some network accessible
+resource that the CA can query (via DNS or HTTP)
+from multiple vantage points worldwide in order to validate
+that the client controls an identifier. Once the challenge is validated, the
+client should de-provision the resource."><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/acme/challenges/"><meta property="og:site_name" content="ACME and the WebPKI"><meta property="og:title" content="Challenge Types"><meta property="og:description" content="ACME Challenge Types # ACME challenges provide the CA with assurance that certificate requesters control the identifiers (domain name or IP address) requested to be included in the certificate. To successfully complete challenges, clients must both prove that they control the identifiers in question and that they hold the private key of the account key pair used to respond to the challenges.
+ACME challenges typically require the client to set up some network accessible resource that the CA can query (via DNS or HTTP) from multiple vantage points worldwide in order to validate that the client controls an identifier. Once the challenge is validated, the client should de-provision the resource."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="acme"><title>Challenge Types | ACME and the WebPKI</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/acme/challenges/><link rel=stylesheet href=/book.min.e9f68c3fff3d8236a489d16a9caf6de5e4d1a29c20eb4b5524e42cd30be4d319.css integrity="sha256-6faMP/89gjakidFqnK9t5eTRopwg60tVJOQs0wvk0xk=" crossorigin=anonymous><script async src="https://www.googletagmanager.com/gtag/js?id=G-0LW86NH9LL"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-0LW86NH9LL")}</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>ACME and the WebPKI</span></a></h2><ul><li><a href=/getting-started/>Getting Started with ACME</a></li><li><a href=/acme/>The ACME Protocol</a><ul><li><a href=/acme/overview/>Overview</a></li><li><a href=/acme/challenges/ class=active>Challenge Types</a></li><li><a href=/acme/eab/>EAB (External Account Binding)</a></li><li><a href=/acme/ari/>ARI (ACME Renewal Information)</a></li></ul></li><li><a href=/webpki/>The WebPKI</a><ul><li><a href=/webpki/cert/>Anatomy of a Certificate</a></li><li><a href=/webpki/cert-lifetime/>Certificate Lifetime</a></li><li><a href=/webpki/caa/>CAA (Certificate Authority Authorization)</a></li><li><a href=/webpki/mpic/>MPIC (Multi-Perspective Issuance Corroboration)</a></li><li><a href=/webpki/ct/>CT (Certificate Transparency)</a></li></ul></li></ul><ul><li><a href=https://github.com/fhchstr/acmeprotocol.dev target=_blank rel=noopener>Contribute to this Website</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Challenge Types</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#acme-challenge-types>ACME Challenge Types</a><ul><li><a href=#http-01>http-01</a></li><li><a href=#dns-01>dns-01</a></li><li><a href=#dns-account-01>dns-account-01</a></li><li><a href=#tls-alpn-01>tls-alpn-01</a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=acme-challenge-types>ACME Challenge Types
+<a class=anchor href=#acme-challenge-types>#</a></h1><p>ACME challenges provide the CA with assurance that certificate requesters
+control the identifiers (domain name or IP address) requested to be included in
+the certificate. To successfully complete challenges, clients must both prove
+that they control the identifiers in question and that they hold the private key
+of the account key pair used to respond to the challenges.</p><p>ACME challenges typically require the client to set up some network accessible
+resource that the CA can query (via DNS or HTTP)
+<a href=/webpki/mpic/>from multiple vantage points worldwide</a> in order to validate
+that the client controls an identifier. Once the challenge is validated, the
+client should de-provision the resource.</p><p>If the CA queries the resource too early, for example before the information had
+time to propagate globally, the validation may fail. This is why clients should
+only ask the CA to validate challenges once they believe the request will
+succeed. This is particularly important since <strong>some CAs do not retry failed
+challenge validations</strong>!</p><p>Most ACME challenges make use of a &ldquo;key authorization string&rdquo;. This string
+concatenates the token for the challenge with a key fingerprint, separated by a
+&ldquo;<code>.</code>&rdquo; character</p><pre tabindex=0><code>keyAuthorization = token || &#39;.&#39; || base64url(sha256(accountKey))
+</code></pre><h2 id=http-01>http-01
+<a class=anchor href=#http-01>#</a></h2><p>The <code>http-01</code> challenge type requires the client to provision a file, with a
+specific string as its content, at a specific path on a web server. The file
+must be available over HTTP, and not just HTTPS.</p><p>The URL at which the file must be provisioned is
+<code>http://{domain}/.well-known/acme-challenge/{token}</code>. Its content must be the
+ASCII representation of the key authorization.</p><p>See <a href=https://datatracker.ietf.org/doc/html/rfc8555#section-8.3>RFC 8555</a> and
+<a href=https://letsencrypt.org/docs/challenge-types/#http-01-challenge>the excellent summary from Let&rsquo;s Encrypt</a>
+for more information about the <code>http-01</code> challenge type and its pros/cons.</p><h2 id=dns-01>dns-01
+<a class=anchor href=#dns-01>#</a></h2><p>The <code>dns-01</code> challenge type requires to provision a <code>TXT</code> resource record
+containing a designated value on DNS. The value is the SHA-256 digest of the key
+authorization, and the validation record name is <code>_acme-challenge.{domain}</code>.</p><p>The <code>dns-01</code> challenge type can be used to issue certificates containing
+wildcard domain names.</p><p>See <a href=https://datatracker.ietf.org/doc/html/rfc8555#section-8.4>RFC 8555</a> and
+<a href=https://letsencrypt.org/docs/challenge-types/#dns-01-challenge>the excellent summary from Let&rsquo;s Encrypt</a>
+for more information about the <code>dns-01</code> challenge type and its pros/cons.</p><h2 id=dns-account-01>dns-account-01
+<a class=anchor href=#dns-account-01>#</a></h2><p>The <code>dns-account-01</code> challenge type is almost the same as <code>dns-01</code>. The main
+difference is that the validation record name is not just
+<code>_acme-challenge.{domain}</code>. It contains an extra label derived from the ACME
+account key. For example: <code>_ujmmovf2vn55tgye._acme-challenge.{domain}</code>.</p><p>The <code>dns-account-01</code> challenge type can be used to issue certificates containing
+wildcard domain names.</p><p>The <code>dns-account-01</code> challenge type enables multiple independent systems to
+authorize a single domain name concurrently by using <strong>a unique domain label per
+ACME account</strong> as DNS validation record name, <code>dns-account-01</code> avoids CNAME
+delegation conflicts inherent to the <code>dns-01</code> challenge type. This is
+particularly valuable for multi-region or multi-cloud deployments that wish to
+rely upon DNS-based domain control validation and need to independently obtain
+certificates for the same domain.</p><p>See the
+<a href=https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/><strong>draft</strong> RFC</a>
+for more information</p><h2 id=tls-alpn-01>tls-alpn-01
+<a class=anchor href=#tls-alpn-01>#</a></h2><p>The <code>tls-alpn-01</code> challenge type requires to construct a self-signed certificate
+containing a designed value, and serving it to clients negotiating the
+&ldquo;<code>acme-tls/1</code>&rdquo; application-layer protocol in the ALPN (Application Layer
+Protocol Negotiation) extension during the TLS handshake when connecting to TCP
+port 443.</p><p>The self-signed certificate must contain the domain name being validated as a
+<code>dnsName</code> in the <code>subjectAlternativeName</code> extension, and it must include the
+<code>acmeIdentifier</code> extension which must contain the SHA-256 digest of the key
+authorization.</p><p>See <a href=https://datatracker.ietf.org/doc/html/rfc8737>RFC 8737</a> and
+<a href=https://letsencrypt.org/docs/challenge-types/#tls-alpn-01>the excellent summary from Let&rsquo;s Encrypt</a>
+for more information about the <code>tls-alpn-01</code> challenge type and its pros/cons.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script><i><a href=https://acmeprotocol.dev/>acmeprotocol.dev</a> is a side project from <a href=https://www.linkedin.com/in/fhchstr/>Fabien Hochstrasser</a>. The opinions expressed on this website are my own and do not reflect the views of my current or former employers.</i></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#acme-challenge-types>ACME Challenge Types</a><ul><li><a href=#http-01>http-01</a></li><li><a href=#dns-01>dns-01</a></li><li><a href=#dns-account-01>dns-account-01</a></li><li><a href=#tls-alpn-01>tls-alpn-01</a></li></ul></li></ul></nav></div></aside></main></body></html>
