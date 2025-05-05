@@ -5,6 +5,12 @@ title: Certificate Lifetime
 
 # Certificate Lifetime
 
+In general, shorter certificate lifetimes are better than longer lifetimes from
+a security perspective. Revocation does not work very well in practice, so a
+shorter lifetime reduces the risk if a certificate's private key is exposed.
+Using AMCE you can easily use shorter certificates because renewals are handled
+automatically by your client.
+
 The maximal allowed validity of certificates is set by (continuously evolving)
 [WebPKI](/webpki/) requirements that all publicly trusted CAs must comply with.
 Here is the evolution of the maximal allowed validity of TLS web server
@@ -147,6 +153,8 @@ forget to query the revocation status of certificates. Short-lived certificates
 solve this problem since **they are guaranteed to become invalid after just a
 few days**.
 
+[Google Trust Services](https://pki.goog/) supports lifetimes as low as a single
+day and limits IP certitifates to [10 days](https://pki.goog/faq/#faq-IPCerts).
 Let's Encrypt
 [announced support for short-lived certificates](https://letsencrypt.org/2025/01/16/6-day-and-ip-certs/)
 and declared that these certificates will also support IP addresses in addition
