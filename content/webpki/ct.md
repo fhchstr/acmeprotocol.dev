@@ -25,6 +25,10 @@ works because
 This page only provides a high-level overview of certificate transparency. Refer
 to https://certificate.transparency.dev/ for more information.
 
+Running a CT log is expensive and requires a lot of work. Log operators deserve
+a large thank you from all wbe users. They provide a valuable service that most
+users are not aware of.
+
 ## Origin
 
 Certificate transparency was designed to detect maliciously or mistakenly issued
