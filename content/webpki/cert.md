@@ -450,15 +450,20 @@ If the certificate is revoked, it will appear on the linked CRL file.
 ```
 
 SCTs (Signed Certificate Timestamps) are promises from CT (Certificate
-Transparency) logs to include the (pre)certificate. These are SCTs from
-"`Google 'Xenon2025h1' log`" and "`Let's Encrypt 'Oak2025h1'`", respectively. We
-can verify that by
-[converting the hex-encoded Log ID to base64](<https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')>)
+Transparency) logs to include the (pre)certificate. These are SCTs from "[Google
+'Xenon2025h1' log]" and "[Let's Encrypt 'Oak2025h1']", respectively. We can
+verify that by
+[converting the hex-encoded Log ID to base64](<https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'Log%20ID%20*:'%7D,'',true,true,false,false)From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')>)
 and looking for that "`log_id`" in
 https://www.gstatic.com/ct/log_list/v3/log_list.json.
 
 See [the page dedicated to Certificate Transparency](/webpki/ct/) for more
 information.
+
+[Google 'Xenon2025h1' log]:
+  https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'Log%20ID%20*:'%7D,'',true,true,false,false)From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')&input=ICAgICAgICAgICAgICAgICAgICBMb2cgSUQgICAgOiBDRjoxMTo1NjpFRTpENToyRTo3QzpBRjpGMzo4Nzo1QjpEOTo2OToyRTo5QjpFOToKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAxQTo3MTo2Nzo0QTpCMDoxNzpFQzpBQzowMTpEMjo1Qjo3NzpDRTpDQzozQjowOA
+[Let's Encrypt 'Oak2025h1']:
+  https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'Log%20ID%20*:'%7D,'',true,true,false,false)From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')&input=ICAgICAgICAgICAgICAgICAgICBMb2cgSUQgICAgOiBBMjpFMzowQTpFNDo0NTpFRjpCRDpBRDo5Qjo3RTozODpFRDo0Nzo2Nzo3Nzo1MzoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBENzo4Mjo1Qjo4NDo5NDpENzoyQjo1RToxQjoyQzpDNDpCOTo1MDpBNDo0NzpFNw
 
 # Encoding
 

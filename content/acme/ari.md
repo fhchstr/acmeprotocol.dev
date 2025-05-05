@@ -5,11 +5,12 @@ title: ARI (ACME Renewal Information)
 
 # ARI (ACME Renewal Information)
 
-ARI (ACME Renewal Information) is an ACME endpoint that returns, for every
+ARI (ACME Renewal Information) is an ACME endpoint that returns, for each
 certificate, the suggested period in which they should be renewed. ARI enables
-CAs to automatically inform their users that they must proactively replace their
-certificates in case they will be revoked due to a compliance violation. In
-addition, ARI also helps to mitigate load spikes by evenly distributing the
+CAs to **automatically** inform their users that they must **proactively
+replace** their certificates in case they will be revoked due to, for example, a
+compliance requirement violated by the CA. In addition, ARI also helps to
+**mitigate load spikes on the CA infrastructure** by evenly distributing the
 suggested renewal window across all certificates.
 
 ARI is being standardized in a
@@ -30,7 +31,7 @@ With ARI, ACME clients don't need to implement their own logic to determine when
 to renew certificates. Instead, they ask the CA when would be a good time to do
 it.
 
-To query the suggested renewal window, clients must send, for every certificate,
+To query the suggested renewal window, clients must send, for each certificate,
 an HTTP `GET` request to the `renewalInfo` URL found in the JSON object returned
 by the [ACME Directory URL](/acme/overview/#directory). Here is how an ARI
 request looks like.

@@ -13,7 +13,7 @@ certificates for a domain you own? \
 **You would certainly want to know about it, wouldn't you?**
 
 That's exactly what CT (Certificate Transparency) is for! Publicly trusted CAs
-are obliged to submit all certificates they issue to CT logs, which are
+are obliged to submit all certificates they issue to CT logs, which are public
 cryptographically verifiable **append-only data stores** based on
 [Merkle trees](https://en.wikipedia.org/wiki/Merkle_tree), which is the same
 technology that underpins the
@@ -50,8 +50,8 @@ way is to [revoke it via ACME](/acme/overview/#revocation).
 
 Domain owners can use tools and services listed at
 https://certificate.transparency.dev/monitors/ to monitor certificates issued
-for their domains. In particular, https://crt.sh/ is very handy to manually
-explore certificates submitted to CT logs.
+for their domains. In particular, https://crt.sh/ is very handy to explore
+certificates submitted to CT logs.
 
 {{% details title="Your hostnames are not private !" open=false %}}
 
@@ -70,7 +70,7 @@ your internal hosts if you want to ensure they won't show up CT logs.
 ## How does it work ?
 
 CAs must embed [SCTs (Signed Certificate Timestamps)](/webpki/cert/#sct) in
-their certificates [^1]. A SCT is receipt signed by a CT log to attest it
+certificates they issue [^1]. A SCT is receipt signed by a CT log to attest it
 accepted the certificate. But there is a problem here. Since the certificate
 doesn't exist yet, how can it be submitted to the CT log?
 

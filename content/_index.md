@@ -48,6 +48,6 @@ services. For example:
 - [Azure Key Vault](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/certificate-lifecycle/)
   (**Requires payment** of a DigiCert or GlobalSign subscription)
 
-If you're unable to delegate the management of your certificates, use this site
-to get guidance for automating the lifecycle management of your certificates
-using [the ACME protocol](/acme/).
+If you're unable to delegate the management of your certificates, see the
+[getting started page](/getting-started/) for automating the lifecycle
+management of your certificates using [the ACME protocol](/acme/).

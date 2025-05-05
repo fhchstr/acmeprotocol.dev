@@ -54,7 +54,8 @@ answers may not be easily found online.
 - What key types, sizes, and algorithms does the CA support?
 
 Once you've selected the CAs you want to use, make sure to set appropriate
-[CAA records](/acme/caa/) to allow them to issue certificates for your domains.
+[CAA records](/webpki/caa/) to allow them to issue certificates for your
+domains.
 
 {{% details title="Google Trust Services" open=false %}} <a id="gts"></a>
 
@@ -71,8 +72,8 @@ Once you've selected the CAs you want to use, make sure to set appropriate
 - Supports
   [internationalized domain name](https://en.wikipedia.org/wiki/Punycode)
   certificates
-- Widely trusted certificate chain; it's the same as the one used by
-  `google.com`
+- Widely trusted certificate chains (it's the same trust anchors as the ones
+  used by `google.com`)
 - Requires [EAB (External Account Binding)](/acme/eab/) with a GCP (Google Cloud
   Platform) account/project (see
   [integration guide](https://cloud.google.com/certificate-manager/docs/public-ca-tutorial))

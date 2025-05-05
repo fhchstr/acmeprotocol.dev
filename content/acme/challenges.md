@@ -20,12 +20,12 @@ client should de-provision the resource.
 If the CA queries the resource too early, for example before the information had
 time to propagate globally, the validation may fail. This is why clients should
 only ask the CA to validate challenges once they believe the request will
-succeed. This is particularly important since **some CAs do not retry failed
+succeed. This is particularly important since **some CAs refuse to retry failed
 challenge validations**!
 
 Most ACME challenges make use of a "key authorization string". This string
-concatenates the token for the challenge with a key fingerprint, separated by a
-"`.`" character
+concatenates the CA-provided token for the challenge with a key fingerprint,
+separated by a "`.`" character
 
 ```
 keyAuthorization = token || '.' || base64url(sha256(accountKey))
@@ -35,7 +35,7 @@ keyAuthorization = token || '.' || base64url(sha256(accountKey))
 
 The `http-01` challenge type requires the client to provision a file, with a
 specific string as its content, at a specific path on a web server. The file
-must be available over HTTP, and not just HTTPS.
+must be available over HTTP on TCP port 80, and not just HTTPS.
 
 The URL at which the file must be provisioned is
 `http://{domain}/.well-known/acme-challenge/{token}`. Its content must be the
@@ -82,9 +82,9 @@ for more information
 
 ## tls-alpn-01
 
-The `tls-alpn-01` challenge type requires to construct a self-signed certificate
-containing a designed value, and serving it to clients negotiating the
-"`acme-tls/1`" application-layer protocol in the ALPN (Application Layer
+The `tls-alpn-01` challenge type requires to construct a **self-signed
+certificate** containing a designed value, and serving it to clients negotiating
+the "`acme-tls/1`" application-layer protocol in the ALPN (Application Layer
 Protocol Negotiation) extension during the TLS handshake when connecting to TCP
 port 443.
 

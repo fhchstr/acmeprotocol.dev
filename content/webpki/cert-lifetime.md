@@ -92,9 +92,10 @@ control the domains in question when requesting new certificates.
 
 **Other reuse periods specific to OV, EV, or QWAC certificates are not
 affected**. When requesting such certificates, applicants will have to
-frequently prove that they control each domain name, but they won't have to
-prove as frequently that the legal entity who owns a domain name is still the
-same/still exists.
+frequently prove that they control each domain name (which is easy and
+automatic), but they won't have to prove as frequently that the legal entity who
+owns a domain name is still the same/still exists (which can't be easily
+automated).
 
 Private CAs are not affected since they do not have to comply with the WebPKI
 requirements.

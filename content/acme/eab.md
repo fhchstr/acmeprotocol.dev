@@ -7,9 +7,9 @@ bookToC: false
 # EAB (External Account Binding)
 
 To enforce quota limits, provide technical support, or prevent abuse, some ACME
-CAs may require an existing account in a non-ACME system, such as a CA customer
-database, as a prerequisite for creating new ACME accounts. This account
-association is called EAB (External Account Binding). It is specified in
+CAs may require **an existing account in a non-ACME system**, such as a CA
+customer database, as a prerequisite for creating new ACME accounts. This
+account association is called EAB (External Account Binding). It is specified in
 [RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4).
 
 CAs having this requirement advertise it by setting the
@@ -21,7 +21,9 @@ the [ACME Directory URL](/acme/overview/#directory).
 **using a mechanism outside of ACME**. Clients can then create a new
 [ACME account](/acme/overview/#account) by setting the `externalAccountBinding`
 field in the `newAccount` request. The value of this field must be derived from
-the MAC key and key identifier previously provided by the CA.
+the MAC key and key identifier previously provided by the CA. See
+[RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4) for more
+information.
 
 The CA returns an `externalAccountRequired` error if it receives a `newAccount`
 request without the `externalAccountBinding` field set.

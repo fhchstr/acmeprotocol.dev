@@ -9,8 +9,7 @@ bookToC: false
 CAA (Certificate Authority Authorization) is a
 [DNS record type](https://en.wikipedia.org/wiki/List_of_DNS_record_types) that
 specifies which CAs (Certificate Authorities) are allowed to issue certificates
-for a domain name. CAA can also set additional constraints related to
-certificate issuances.
+for a domain name. CAA can also set additional certificate issuance constraints.
 [Compliance requirements](https://github.com/cabforum/servercert/blob/main/docs/BR.md#3228-caa-records)
 **oblige CAs to honor CAA records** when issuing certificates.
 
@@ -18,7 +17,7 @@ DV (Domain Validated) certificates issued by publicly trusted CAs are all
 equally trusted. Browsers treat certificates issued by popular CAs the same way
 as certificates issued by small regional CAs. As demonstrated by
 [this article from 2022](https://unmitigatedrisk.com/?p=673), **98% of all
-publicly trusted TLS web server certificates are issued by the top 5 CAs** (out
+publicly trusted TLS web server certificates were issued by the top 5 CAs** (out
 of 200+ CAs). Current numbers are still in the same ballpark. The vast majority
 of publicly trusted TLS web server certificates are issued by a handful of CAs.
 
@@ -29,14 +28,13 @@ for your domains**. CAA alone is not sufficient. You should still monitor
 certificates.
 
 Here is how a CAA record looks like. This one only authorizes
-[Let's Encrypt](https://letsencrypt.org/) and
 [Google Trust Services](https://pki.goog/) to issue certificates for
 `acmeprotocol.dev` and its subdomains (assuming there are no other CAA records
-set on subdomains).
+set on subdomains). It is possible to set multiple CAA `issue` records to
+authorize multiple CAs to issue certificates for a domain.
 
 ```bash
-$ dig +short acmeprotocol.dev CAA
-0 issue "letsencrypt.org"
+$ dig +short google.com CAA
 0 issue "pki.goog"
 ```
 
