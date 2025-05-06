@@ -41,10 +41,11 @@ certificates:
    certificates with maximal validity 1 day prior their domain name registration
    expires. See https://insecure.design/, which explains this problem in depth.
 2. To **increase the agility** of clients by forcing them to automate their
-   certificate lifecycle management. Even if this is an existing expectation,
-   history has shown that too many clients lack the ability to quickly rotate
-   their certificates in case of emergency such as the
-   [Heartbleed](https://www.heartbleed.com/) vulnerability or
+   certificate lifecycle management (which is now easy thanks to
+   [ACME](/getting-started/)). Even if this is an existing expectation, history
+   has shown that too many clients lack the ability to quickly rotate their
+   certificates in case of emergency such as exposed private keys,
+   [Heartbleed](https://www.heartbleed.com/)-like vulnerabilities, or
    [mandated revocations](https://blog.mozilla.org/security/2025/03/12/enhancing-ca-practices-key-updates-in-mozilla-root-store-policy-v3-0/).
 3. To **reduce reliance on certificate revocation**, which is imperfect
    ([[1]](https://www.imperialviolet.org/2014/04/29/revocationagain.html),
@@ -146,6 +147,10 @@ become globally consistent when certificates are revoked. Some clients even
 forget to query the revocation status of certificates. Short-lived certificates
 solve this problem since **they are guaranteed to become invalid after just a
 few days**.
+
+[Google Trust Services](https://pki.goog/) can issue certificate valid for as
+low as a single day and they limit the validity of
+[IP address certificates](https://pki.goog/faq/#faq-IPCerts) to just a few days.
 
 Let's Encrypt
 [announced support for short-lived certificates](https://letsencrypt.org/2025/01/16/6-day-and-ip-certs/)
