@@ -1,6 +1,7 @@
 ---
 weight: 14
 title: CT (Certificate Transparency)
+bookToC: false
 ---
 
 # CT (Certificate Transparency)

@@ -1,6 +1,7 @@
 ---
 weight: 1
 title: Getting Started with ACME
+bookToC: false
 ---
 
 # Getting Started with ACME

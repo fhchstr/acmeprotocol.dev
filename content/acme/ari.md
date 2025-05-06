@@ -1,6 +1,7 @@
 ---
 weight: 13
 title: ARI (ACME Renewal Information)
+bookToC: false
 ---
 
 # ARI (ACME Renewal Information)

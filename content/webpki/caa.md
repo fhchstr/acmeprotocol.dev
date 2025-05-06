@@ -29,9 +29,9 @@ certificates.
 
 Here is how a CAA record looks like. This one only authorizes
 [Google Trust Services](https://pki.goog/) to issue certificates for
-`acmeprotocol.dev` and its subdomains (assuming there are no other CAA records
-set on subdomains). It is possible to set multiple CAA `issue` records to
-authorize multiple CAs to issue certificates for a domain.
+`google.com` and its subdomains (assuming there are no other CAA records set on
+subdomains). It is possible to set multiple CAA `issue` records to authorize
+multiple CAs to issue certificates for a domain.
 
 ```bash
 $ dig +short google.com CAA
