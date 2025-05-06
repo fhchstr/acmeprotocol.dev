@@ -42,6 +42,24 @@ inventors were awarded the
 [Levchin Prize](https://rwc.iacr.org/LevchinPrize/winners.html#CT), which honors
 major innovations in cryptography.
 
+## Who Operates CT logs?
+
+CT logs are operated, **for free**, by a few organizations who believe this is
+the right thing to do for providing a safer Internet to everyone. All publicly
+trusted CAs have a **hard dependency on CT logs**.
+
+{{% details title="No publicly trusted CA can issue certificates if CT logs stop working!" open=false %}}
+
+![XKCD comic showing that the whole WebPKI relies on CT logs](/images/ct.jpg)
+
+{{% /details %}}
+
+[There are only 6 log operators](https://certificate.transparency.dev/logs/)
+trusted by major web browsers. Running a CT log is expensive and requires a lot
+of work. Log operators deserve a large thank you (**some accept donations!**).
+They provide an invaluable service that most Internet users are not even aware
+of.
+
 ## Domain Owner Responsibilities
 
 **Site owners are supposed to monitor CT logs for certificates issued for their
