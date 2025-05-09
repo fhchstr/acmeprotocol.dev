@@ -8,23 +8,23 @@ bookToC: false
 
 The "[Trust, but verify](https://en.wikipedia.org/wiki/Trust,_but_verify)"
 proverb fits particularly well the WebPKI. Clients trust CAs to only issue
-certificates after they've performed the necessary verifications. But what if
-the CA makes a mistake or if someone manipulates the CA into issuing
-certificates for a domain you own? \
+certificates after they've performed the necessary verifications. But what if a
+CA makes a mistake or if someone manipulates a CA into issuing certificates for
+a domain you own? \
 **You would certainly want to know about it, wouldn't you?**
 
 That's exactly what CT (Certificate Transparency) is for! Publicly trusted CAs
-are obliged to submit all certificates they issue to CT logs, which are public
-cryptographically verifiable **append-only data stores** based on
-[Merkle trees](https://en.wikipedia.org/wiki/Merkle_tree), which is the same
-technology that underpins the
+are obliged to submit all certificates they issue to CT logs. CT logs are
+publicly auditable and cryptographically verifiable **append-only data stores**
+based on [Merkle trees](https://en.wikipedia.org/wiki/Merkle_tree), which is the
+same technology that underpins the
 [Bitcoin cryptocurrency](https://en.wikipedia.org/wiki/Bitcoin). This system
 works because
 [most web browsers](https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency#browser_requirements)
 **only trust certificates submitted to CT logs**.
 
-This page only provides a high-level overview of certificate transparency. Refer
-to https://certificate.transparency.dev/ for more information.
+This page provides a high-level overview of certificate transparency. Refer to
+https://certificate.transparency.dev/ for more information.
 
 ## Origin
 
@@ -34,31 +34,20 @@ publicly trusted TLS web server certificates. This database is used for various
 purposes. For example, security and compliance researchers use it to discover
 malformed or non-compliant certificates issued by CAs.
 
-Certificate transparency was first standardized in
-[RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962), and Certificate
-Transparency **<ins>2.0</ins>** was later standardized in
-[RFC 9162](https://datatracker.ietf.org/doc/html/rfc9162). In 2024, its
+Certificate transparency is standardized in
+[RFC 6962](https://datatracker.ietf.org/doc/html/rfc6962). In 2024, its
 inventors were awarded the
 [Levchin Prize](https://rwc.iacr.org/LevchinPrize/winners.html#CT), which honors
 major innovations in cryptography.
 
-## Who Operates CT logs?
+[RFC 9162](https://datatracker.ietf.org/doc/html/rfc9162) proposes Certificate
+Transparency **<ins>2.0</ins>**. But it is likely that this proposed new version
+will never be widely adopted.
 
-CT logs are operated, **for free**, by a few organizations who believe this is
-the right thing to do for providing a safer Internet to everyone. All publicly
-trusted CAs have a **hard dependency on CT logs**.
-
-{{% details title="No publicly trusted CA can issue certificates if CT logs stop working!" open=false %}}
-
-![XKCD comic showing that the whole WebPKI relies on CT logs](/images/ct.jpg)
-
-{{% /details %}}
-
-[There are only 6 log operators](https://certificate.transparency.dev/logs/)
-trusted by major web browsers. Running a CT log is expensive and requires a lot
-of work. Log operators deserve a large thank you (**some accept donations!**).
-They provide an invaluable service that most Internet users are not even aware
-of.
+[Sunlight](https://letsencrypt.org/2024/03/14/introducing-sunlight/) is an
+experimental addition to the Certificate Transparency **<ins>1.0</ins>**
+specification that optimizes the internals of CT logs and increases caching
+opportunities. The Sunlight specification defines new APIs for reading CT logs.
 
 ## Domain Owner Responsibilities
 
@@ -69,7 +58,7 @@ way is to [revoke it via ACME](/acme/overview/#revocation).
 
 Domain owners can use tools and services listed at
 https://certificate.transparency.dev/monitors/ to monitor certificates issued
-for their domains. In particular, https://crt.sh/ is very handy to explore
+for their domains. In particular, https://crt.sh/ is very handy to discover
 certificates submitted to CT logs.
 
 {{% details title="Your hostnames are not private !" open=false %}}
@@ -89,7 +78,7 @@ your internal hosts if you want to ensure they won't show up CT logs.
 ## How does it work ?
 
 CAs must embed [SCTs (Signed Certificate Timestamps)](/webpki/cert/#sct) in
-certificates they issue [^1]. A SCT is receipt signed by a CT log to attest it
+certificates they issue [^1]. A SCT is a receipt signed by a CT log to attest it
 accepted the certificate. But there is a problem here. Since the certificate
 doesn't exist yet, how can it be submitted to the CT log?
 
@@ -106,14 +95,15 @@ with 3 key differences:
 2. It includes a [critical](/webpki/cert/#extensions) CT poison extension, which
    is not recognized by any client (by design/on purpose). This ensures that the
    precertificate cannot be used instead of the real certificate.
-3. Since there are differences, the signature is obviously also different.
+3. Its signature is different since it is not byte-for-byte identical to the
+   certificate.
 
 Here is an [example precertificate](https://crt.sh/?id=17531419628) and the
 [corresponding certificate](https://crt.sh/?id=17870169097).
 
 SCTs cannot be signed by any CT log. They must be signed by CT logs
 trusted/recognized by web browsers. In the same way that browsers only trust
-certain CAs, browsers also only trust certain CT logs. Here are the CT logs
+specific CAs, browsers also only trust specific CT logs. Here are the CT logs
 recognized by major browsers:
 
 - [Google Chrome](https://www.gstatic.com/ct/log_list/v3/log_list.json)
@@ -123,4 +113,18 @@ recognized by major browsers:
 
 When browsers validate publicly trusted TLS web server certificates, they
 extract the SCTs and they verify their signature against their list of trusted
-CT logs. The signature verification doesn't require connecting to the CT logs.
+CT logs. The signature verification doesn't require connecting to the CT logs
+since browsers already know their public key.
+
+CT logs are operated, **for free**, by
+[a few organizations](https://certificate.transparency.dev/logs/) who believe
+this is the right thing to do for providing a safer Internet to everyone. They
+provide an invaluable service that most Internet users are not even aware of.
+Running reliable and compliant CT logs is expensive and requires a lot of work.
+Log operators deserve a large thank you (**some accept donations!**).
+
+{{% details title="No publicly trusted CA can issue certificates if all CT logs stop working!" open=false %}}
+
+![XKCD comic showing that the whole WebPKI relies on CT logs](/images/ct.jpg)
+
+{{% /details %}}

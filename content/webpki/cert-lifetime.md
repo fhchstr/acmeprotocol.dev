@@ -149,7 +149,7 @@ solve this problem since **they are guaranteed to become invalid after just a
 few days**.
 
 [Google Trust Services](https://pki.goog/) can issue certificate valid for as
-low as a single day and they limit the validity of
+low as a single day and they limit the maximal validity of
 [IP address certificates](https://pki.goog/faq/#faq-IPCerts) to just a few days.
 
 Let's Encrypt

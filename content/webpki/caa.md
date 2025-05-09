@@ -13,6 +13,13 @@ for a domain name. CAA can also set additional certificate issuance constraints.
 [Compliance requirements](https://github.com/cabforum/servercert/blob/main/docs/BR.md#3228-caa-records)
 **oblige CAs to honor CAA records** when issuing certificates.
 
+When validating a domain name, CAs must search CAA records by climbing the DNS
+name tree from the specified domain name up to the DNS root until a CAA record
+is found. In other words, CAA records set on a domain name apply to all
+subdomains, unless more specific CAA records are set on subdomains. If no CAA
+record is found, no restriction exists, and all CAs are authorized to issue
+certificates for that domain name.
+
 DV (Domain Validated) certificates issued by publicly trusted CAs are all
 equally trusted. Browsers treat certificates issued by popular CAs the same way
 as certificates issued by small regional CAs. As demonstrated by
@@ -30,8 +37,9 @@ certificates.
 Here is how a CAA record looks like. This one only authorizes
 [Google Trust Services](https://pki.goog/) to issue certificates for
 `google.com` and its subdomains (assuming there are no other CAA records set on
-subdomains). It is possible to set multiple CAA `issue` records to authorize
-multiple CAs to issue certificates for a domain.
+subdomains). It is possible to set multiple CAA records on a domain name to
+authorize multiple CAs to issue certificates for a domain or to set additional
+constraints.
 
 ```bash
 $ dig +short google.com CAA
@@ -42,8 +50,8 @@ The most common additional constraints that CAA can set are:
 
 - `issuewild`, which is like `issue` but specific to
   [wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/).
-- `validationmethods`, which specify which [challenge types](/acme/challenges/)
-  are allowed to prove domain control.
+- `validationmethods`, which specifies which
+  [challenge types](/acme/challenges/) are allowed to prove domain control.
 - `accounturi`, which specifies which accounts (e.g.
   [ACME accounts](/acme/overview/#account)) are allowed to request certificates.
 - `cansignhttpexchanges`, which specifies whether

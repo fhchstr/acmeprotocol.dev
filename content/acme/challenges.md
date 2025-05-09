@@ -6,10 +6,10 @@ title: Challenge Types
 # ACME Challenge Types
 
 ACME challenges provide the CA with assurance that certificate requesters
-control the identifiers (domain name or IP address) requested to be included in
-the certificate. To successfully complete challenges, clients must both prove
-that they control the identifiers in question and that they hold the private key
-of the account key pair used to respond to the challenges.
+control the identifiers (domain name or IP address) requested to be included
+certificates. To successfully complete challenges, clients must both prove that
+they control the identifiers in question and that they hold the private key of
+the account key pair used to respond to the challenges.
 
 ACME challenges typically require the client to set up some network accessible
 resource that the CA can query (via DNS or HTTP)
@@ -24,8 +24,8 @@ succeed. This is particularly important since **some CAs refuse to retry failed
 challenge validations**!
 
 Most ACME challenges make use of a "key authorization string". This string
-concatenates the CA-provided token for the challenge with a key fingerprint,
-separated by a "`.`" character
+concatenates the [CA-provided token](/acme/overview/#authz) for the challenge
+with the ACME account key fingerprint, separated by a "`.`" character
 
 ```
 keyAuthorization = token || '.' || base64url(sha256(accountKey))
@@ -34,8 +34,8 @@ keyAuthorization = token || '.' || base64url(sha256(accountKey))
 ## http-01
 
 The `http-01` challenge type requires the client to provision a file, with a
-specific string as its content, at a specific path on a web server. The file
-must be available over HTTP on TCP port 80, and not just HTTPS.
+specific content, at a specific path on a web server. The file must be available
+over HTTP on TCP port 80, and not just HTTPS.
 
 The URL at which the file must be provisioned is
 `http://{domain}/.well-known/acme-challenge/{token}`. Its content must be the
@@ -47,12 +47,13 @@ for more information about the `http-01` challenge type and its pros/cons.
 
 ## dns-01
 
-The `dns-01` challenge type requires to provision a `TXT` resource record
-containing a designated value on DNS. The value is the SHA-256 digest of the key
-authorization, and the validation record name is `_acme-challenge.{domain}`.
+The `dns-01` challenge type requires the client to provision a `TXT` resource
+record containing a designated value on DNS. The value is the SHA-256 digest of
+the key authorization, and the validation record name is
+`_acme-challenge.{domain}`.
 
 The `dns-01` challenge type can be used to issue certificates containing
-wildcard domain names.
+[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/).
 
 See [RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555#section-8.4) and
 [the excellent summary from Let's Encrypt](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge)
@@ -62,23 +63,24 @@ for more information about the `dns-01` challenge type and its pros/cons.
 
 The `dns-account-01` challenge type is almost the same as `dns-01`. The main
 difference is that the validation record name is not just
-`_acme-challenge.{domain}`. It contains an extra label derived from the ACME
-account key. For example: `_ujmmovf2vn55tgye._acme-challenge.{domain}`.
+`_acme-challenge.{domain}`. Instead, it contains an extra label derived from the
+ACME account key. For example: `_ujmmovf2vn55tgye._acme-challenge.{domain}`.
 
 The `dns-account-01` challenge type can be used to issue certificates containing
-wildcard domain names.
+[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/).
 
 The `dns-account-01` challenge type enables multiple independent systems to
-authorize a single domain name concurrently by using **a unique domain label per
-ACME account** as DNS validation record name, `dns-account-01` avoids CNAME
-delegation conflicts inherent to the `dns-01` challenge type. This is
+authorize a single domain name **concurrently** since it relies on a different
+DNS validation record name for each ACME account. The `dns-account-01` challenge
+type avoids CNAME delegation conflicts inherent to `dns-01`. This is
 particularly valuable for multi-region or multi-cloud deployments that wish to
 rely upon DNS-based domain control validation and need to independently obtain
 certificates for the same domain.
 
-See the
-[**draft** RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/)
-for more information
+The `dns-account-01` challenge type is not standardized yet. See the
+<ins>**draft**</ins>
+[RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/) for
+more information.
 
 ## tls-alpn-01
 

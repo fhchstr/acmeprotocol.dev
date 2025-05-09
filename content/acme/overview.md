@@ -55,8 +55,9 @@ The returned JSON object lists URLs for various certificate management actions,
 such as creating a new account (`newAccount`) or initiating a new order
 (`newOrder`). The JSON object also holds metadata that links to various
 resources, specifies the [CAA identities](/webpki/caa/) that the CA recognizes
-as referring to itself, and indicates whether an existing account in a non-ACME
-system is required for creating an ACME account.
+as referring to itself, and indicates whether
+[EAB (External Account Binding)](/acme/eab/) is required for creating an ACME
+account.
 
 ## Account
 
@@ -212,6 +213,7 @@ Location: https://example.com/acme/order/TOlocE8rfgo
 {{% /details %}}
 
 {{% details title="Click here to view an example authorization resource." open=false %}}
+<a id="authz"></a>
 
 ```
 HTTP/1.1 200 OK
@@ -310,8 +312,8 @@ certificate being requested. The CSR must indicate the exact same set of
 identifiers as the initial `newOrder` request. Generally, **the CA only extracts
 the public key from the CSR** and ignores all other attributes and extensions.
 
-Before issuing the certificate, **the CA verifies [CAA records](/acme/caa/)** to
-ensure that it is authorized to issue a certificate for the requested
+Before issuing the certificate, **the CA verifies [CAA records](/webpki/caa/)**
+to ensure that it is authorized to issue a certificate for the requested
 identifiers.
 
 Once all validations pass, the CA issues the certificate including all requested
