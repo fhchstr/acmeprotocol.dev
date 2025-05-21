@@ -5,8 +5,9 @@ title: CAA (Certificate Authority Authorization)
 params:
   tabTitle: CAA - Certificate Authority Authorization
 description:
-  Certificate Authority Authorization (CAA) let's you specify which CAs are
-  authorized to issue certificates for domains you own.
+  Prevent unauthorized certificate issuances. Learn how CAA (Certificate
+  Authority Authorization) lets you control which CAs can issue certificates for
+  your domains.
 ---
 
 # CAA (Certificate Authority Authorization)

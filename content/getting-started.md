@@ -5,8 +5,8 @@ title: Getting Started with ACME
 params:
   tabTitle: Getting Started with the ACME Protocol
 description:
-  Pick a free ACME Certificate Authority (CA) and automate the management of TLS
-  certificates for your HTTPS websites.
+  Ready to automate the procurement of TLS certificates? Get started in no time
+  by choosing among the many available free ACME CAs and clients!
 ---
 
 # Getting Started with ACME

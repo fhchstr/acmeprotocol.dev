@@ -4,8 +4,8 @@ title: Challenge Types
 params:
   tabTitle: ACME Challenge Types
 description:
-  Know everything about the ACME challenge types used to automate the
-  procurement of TLS certificates for your HTTPS websites.
+  Demystify ACME challenge types. Dive into http-01, dns-01, tls-alpn-01, and
+  more to understand their use in automating TLS certificates for HTTPS.
 ---
 
 # ACME Challenge Types

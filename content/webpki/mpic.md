@@ -5,8 +5,8 @@ title: MPIC (Multi-Perspective Issuance Corroboration)
 params:
   tabTitle: MPIC - Multi-Perspective Issuance Corroboration
 description:
-  Multi-Perspective Issuance Corroboration (MPIC) protects Certificate
-  Authorities (CAs) against network hijacking attacks when issuing certificates.
+  Learn how CAs leverage Multi-Perspective Issuance Corroboration (MPIC) to
+  defeat network hijacking attacks when validating control of domain names.
 ---
 
 # MPIC (Multi-Perspective Issuance Corroboration)

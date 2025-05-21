@@ -5,10 +5,9 @@ title: CT (Certificate Transparency)
 params:
   tabTitle: CT - Certificate Transparency
 description:
-  Certificate Transparency (CT) plays a critical role in the Internet's
-  security. Certificate Transparency enables you to monitor all publicly trusted
-  certificates issued for domains you own, and be informed when some are
-  fraudulently issued.
+  Concerned about unauthorized TLS certificates issued for your domains? Learn
+  how Certificate Transparency logs expose mistaken or malicious certificate
+  issuances.
 ---
 
 # CT (Certificate Transparency)

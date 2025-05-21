@@ -2,8 +2,8 @@
 weight: 2
 title: The ACME Protocol
 description:
-  Learn about the ACME protocol and understand why you should switch to free TLS
-  certificates for your websites.
+  Demystify the ACME protocol and understand why free DV (Domain Validated)
+  certificates are often your best choice.
 ---
 
 ## What is ACME ?

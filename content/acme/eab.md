@@ -5,7 +5,8 @@ title: EAB (External Account Binding)
 params:
   tabTitle: ACME EAB - External Account Binding
 description:
-  Understand what External Account Binding (EAB) is in the context of ACME.
+  Understand External Account Binding (EAB), why some CAs require it, and how it
+  fits in the ACME flow when requesting certificates.
 ---
 
 # EAB (External Account Binding)

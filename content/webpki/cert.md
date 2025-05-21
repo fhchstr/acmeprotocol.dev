@@ -4,8 +4,8 @@ title: Anatomy of a Certificate
 params:
   tabTitle: What is a digital certificate?
 description:
-  Learn what X.509 TLS certificates are, and what they are made of. All fields
-  of digital certificates are explained on this page.
+  Explore the anatomy of X.509 TLS certificates. Understand their structure,
+  essential fields, and key extensions that underpin web security.
 ---
 
 # Analogy with the Physical World

@@ -1,9 +1,12 @@
 ---
-title: Automatic TLS/HTTPS Certificates for Free | ACME and the WebPKI
+title: ACME and the WebPKI
 bookToC: false
+params:
+  tabTitle: Automatic TLS/HTTPS Certificates for Free with ACME
 description:
-  Learn how you can get TLS certificates for your HTTPS websites automatically
-  and for free using the ACME protocol.
+  Tired of manual TLS certificate renewals? Learn how the ACME protocol
+  automates the acquisition of TLS certificates and discover CAs that offer free
+  certificates.
 ---
 
 # Automatic HTTPS, for free !
