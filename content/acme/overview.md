@@ -2,7 +2,7 @@
 weight: 10
 title: Overview
 params:
-  tabTitle: ACME Protocol Overview
+  tabTitle: ACME protocol overview
 description:
   Master core ACME protocol concepts. Get a high-level overview of the
   end-to-end process for getting TLS certificates for your HTTPS websites.

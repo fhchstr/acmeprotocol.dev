@@ -2,7 +2,7 @@
 weight: 11
 title: Certificate Lifetime
 params:
-  tabTitle: 47-Day Certificate Lifespan
+  tabTitle: 47-Day certificate lifespan
 description:
   Get ready for 47-day certificate validity by 2029. Understand why shorter
   lifespans are crucial for WebPKI security and what you should do about it.

@@ -1,6 +1,6 @@
 ---
 weight: 2
-title: The ACME Protocol
+title: The ACME protocol
 description:
   Demystify the ACME protocol and understand why free DV (Domain Validated)
   certificates are often your best choice.

@@ -2,7 +2,7 @@
 weight: 10
 title: Anatomy of a Certificate
 params:
-  tabTitle: What is a digital certificate?
+  tabTitle: Anatomy of a digital certificate
 description:
   Explore the anatomy of X.509 TLS certificates. Understand their structure,
   essential fields, and key extensions that underpin web security.

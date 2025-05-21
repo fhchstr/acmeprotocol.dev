@@ -2,7 +2,7 @@
 title: ACME and the WebPKI
 bookToC: false
 params:
-  tabTitle: Automatic TLS/HTTPS Certificates for Free with ACME
+  tabTitle: Automatic TLS/HTTPS certificates for free with ACME
 description:
   Tired of manual TLS certificate renewals? Learn how the ACME protocol
   automates the acquisition of TLS certificates and discover CAs that offer free

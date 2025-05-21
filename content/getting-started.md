@@ -3,7 +3,7 @@ weight: 1
 bookToC: false
 title: Getting Started with ACME
 params:
-  tabTitle: Getting Started with the ACME Protocol
+  tabTitle: Getting started with the ACME protocol
 description:
   Ready to automate the procurement of TLS certificates? Get started in no time
   by choosing among the many available free ACME CAs and clients!
