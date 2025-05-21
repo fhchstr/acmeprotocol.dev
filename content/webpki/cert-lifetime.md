@@ -3,6 +3,9 @@ weight: 11
 title: Certificate Lifetime
 params:
   tabTitle: 47-Day Certificate Lifespan
+description:
+  The maximal validity period of TLS certificates will be reduced to 47 days by
+  2029. Learn why, and what you should do about it.
 ---
 
 # Certificate Validity Period

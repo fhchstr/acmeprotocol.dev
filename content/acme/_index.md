@@ -1,6 +1,9 @@
 ---
 weight: 2
 title: The ACME Protocol
+description:
+  Learn about the ACME protocol and understand why you should switch to free TLS
+  certificates for your websites.
 ---
 
 ## What is ACME ?

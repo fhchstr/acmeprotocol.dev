@@ -2,6 +2,11 @@
 weight: 3
 bookToC: false
 title: The WebPKI
+description:
+  The WebPKI (Web Public Key Infrastructure) is the system of digital
+  certificates, CAs (Certificate Authorities), web browsers, and other entities
+  that enable secure communication and authentication on the Internet, primarily
+  through HTTPS.
 ---
 
 # The WebPKI

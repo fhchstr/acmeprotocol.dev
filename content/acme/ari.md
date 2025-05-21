@@ -4,6 +4,11 @@ bookToC: false
 title: ARI (ACME Renewal Information)
 params:
   tabTitle: ARI - ACME Renewal Information
+description:
+  Learn about the ACME Renewal Information (ARI) mechanism, which enables
+  Certificate Authorities (CAs) to automatically inform their users that they
+  must proactively replace  their certificates in case they will be revoked due
+  to, for example, a compliance requirement violated by the CA.
 ---
 
 # ARI (ACME Renewal Information)

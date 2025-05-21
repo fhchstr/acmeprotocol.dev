@@ -3,6 +3,9 @@ weight: 11
 title: Challenge Types
 params:
   tabTitle: ACME Challenge Types
+description:
+  Know everything about the ACME challenge types used to automate the
+  procurement of TLS certificates for your HTTPS websites.
 ---
 
 # ACME Challenge Types

@@ -3,6 +3,9 @@ weight: 10
 title: Anatomy of a Certificate
 params:
   tabTitle: What is a digital certificate?
+description:
+  Learn what X.509 TLS certificates are, and what they are made of. All fields
+  of digital certificates are explained on this page.
 ---
 
 # Analogy with the Physical World

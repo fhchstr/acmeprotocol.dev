@@ -4,6 +4,8 @@ bookToC: false
 title: EAB (External Account Binding)
 params:
   tabTitle: ACME EAB - External Account Binding
+description:
+  Understand what External Account Binding (EAB) is in the context of ACME.
 ---
 
 # EAB (External Account Binding)

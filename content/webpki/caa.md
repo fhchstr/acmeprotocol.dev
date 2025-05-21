@@ -4,6 +4,9 @@ bookToC: false
 title: CAA (Certificate Authority Authorization)
 params:
   tabTitle: CAA - Certificate Authority Authorization
+description:
+  Certificate Authority Authorization (CAA) let's you specify which CAs are
+  authorized to issue certificates for domains you own.
 ---
 
 # CAA (Certificate Authority Authorization)

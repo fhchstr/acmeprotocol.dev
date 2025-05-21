@@ -4,6 +4,9 @@ bookToC: false
 title: Getting Started with ACME
 params:
   tabTitle: Getting Started with the ACME Protocol
+description:
+  Pick a free ACME Certificate Authority (CA) and automate the management of TLS
+  certificates for your HTTPS websites.
 ---
 
 # Getting Started with ACME
