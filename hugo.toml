@@ -1,6 +1,7 @@
 baseURL = 'https://acmeprotocol.dev/'
 languageCode = 'en-us'
 title = 'ACME and the WebPKI'
+enableRobotsTXT = true
 
 # (Optional) Set this to true if you use capital letters in file names
 disablePathToLower = true
