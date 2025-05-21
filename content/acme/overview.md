@@ -68,13 +68,16 @@ pair suffices. See [Request Protection](#request-protection) below.
 
 New ACME accounts are created by sending an HTTP `POST` request to the
 `newAccount` URL. The previously generated ACME account public key must be set
-in the `jwk` (JSON Web Key) field of the request's JWS (JSON Web Signature). The
-CA will use it to authenticate future requests from that account.
+in the `jwk`
+([JSON Web Key](https://datatracker.ietf.org/doc/html/rfc7515#section-4.1.3))
+header parameter of the request's
+[JWS (JSON Web Signature)](https://en.wikipedia.org/wiki/JSON_Web_Signature).
+The CA will use it to authenticate future requests from that account.
 
 When creating a new account, the client must set `termsOfServiceAgreed` to
-`true` in the request. This attests that they read and agree to the terms of
-service linked from `meta.termsOfService` in the JSON object returned by the
-ACME Directory URL.
+`true` in the request to attest that they read and agree to the terms of service
+linked from `meta.termsOfService` in the JSON object returned by the ACME
+Directory URL.
 
 Clients can also provide a contact URL, usually a `mailto:` email address, that
 the CA can use to notify them about upcoming certificates expiries, upcoming
@@ -93,8 +96,8 @@ by the ACME Directory URL, the `newAccount` request must include the
 an existing account in a non-ACME system, such as a CA customer database. The
 value of the `externalAccountBinding` field is described in
 [RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4). The
-important thing is that its value depends on a MAC (Message Authentication Code)
-key and a key identifier which must both be **previously provided by the CA
+essential point is that its value depends on a MAC (Message Authentication Code)
+key and a key identifier, which must both be **previously provided by the CA
 using a mechanism outside of ACME**. See
 [the page dedicated to External Account Binding](/acme/eab/) for more
 information.
@@ -137,8 +140,9 @@ of the JSON object are computed.
 Most ACME requests:
 
 - Must have a JSON body signed using the ACME account private key.
-- Must have a "`kid`" (Key ID) field which references the ACME account URL to
-  which the key is bound.
+- Must have a "`kid`"
+  ([Key ID](https://datatracker.ietf.org/doc/html/rfc7515#section-4.1.4)) field
+  which references the ACME account URL to which the key is bound.
 - Must use the HTTP `POST` method since HTTP `GET` requests can't have a body.
 - Must include an unpredictable nonce to protect against replay attacks.
 - Must include a "`url`" field (part of the **signed** JSON body) which
@@ -292,10 +296,9 @@ for more information.
 
 Usually, the validation process takes some time, so the client needs to
 regularly poll the authorization URL to know when it is completed. Once
-validated, an authorization can be reused for future certificate issuances (for
-a limited period of time). In other words, the client doesn't always have to
-prove they control an identifier when requesting new certificates for the same
-domain name.
+validated, the authorization can be reused for a limited period of time. This
+streamlines future certificate issuances for the same domain name by eliminating
+the need for repeated control validation.
 
 ## Order Finalization and Issuance {#issuance}
 
@@ -307,8 +310,9 @@ Orders are finalized by sending an HTTP `POST` request to the `finalize` URL
 found in the JSON object returned by `newOrder`. This request must only be sent
 once all corresponding authorizations have been completed.
 
-The request JSON body must include a CSR (Certificate Signing Request) for the
-certificate being requested. The CSR must indicate the exact same set of
+The JSON body of the `finalize` request must include a
+[CSR (Certificate Signing Request)](https://en.wikipedia.org/wiki/Certificate_signing_request)
+for the certificate being requested. The CSR must indicate the exact same set of
 identifiers as the initial `newOrder` request. Generally, **the CA only extracts
 the public key from the CSR** and ignores all other attributes and extensions.
 
@@ -415,8 +419,8 @@ vepuoxtGzi4CZ68zJpiq1UvSqTbFJjtbD4seiMHl
 to serve certificates which form a chain of trust leading from the TLS web
 server certificate to a trust anchor. This is why the site for which the
 certificate just got issued must **serve this whole certificate chain to its
-visitors** when establishing HTTPS connections (and not just the newly issued
-TLS web server certificate).
+visitors** when handling HTTPS connections (and not just the newly issued TLS
+web server certificate).
 
 The response from the CA may also include a `Link` HTTP header with
 `rel="alternate"` pointing to alternative certificate chains (including

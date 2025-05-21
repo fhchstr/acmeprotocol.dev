@@ -35,7 +35,7 @@ for your domains**. CAA alone is not sufficient. You should still monitor
 certificates.
 
 Here is how a CAA record looks like. This one only authorizes
-[Google Trust Services](https://pki.goog/) to issue certificates for
+[Google Trust Services](https://pki.goog/faq/#caa) to issue certificates for
 `google.com` and its subdomains (assuming there are no other CAA records set on
 subdomains). It is possible to set multiple CAA records on a domain name to
 authorize multiple CAs to issue certificates for a domain or to set additional

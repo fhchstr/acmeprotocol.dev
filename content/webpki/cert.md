@@ -234,7 +234,7 @@ The validity defines the timestamps between which the certificate is valid. The
 `notBefore` timestamp is usually backdated by a few minutes to ensure the
 certificate is recognized as immediately valid, even by machines not having an
 accurate clock. Refer to
-[the page dedicated to certificate validities](/webpki/cert-lifetime) for more
+[the page dedicated to certificate validities](/webpki/cert-lifetime/) for more
 information.
 
 ## Subject
@@ -290,9 +290,11 @@ not recognize.
                 Digital Signature
 ```
 
-The key usage extension defines the purpose of the key. The public key in the
-certificate is only used to verify signatures made using its corresponding
-private key. This is why "Digital Signature" is the only purpose of the key.
+The key usage extension defines the purpose of the key. The server must prove to
+clients that it possesses the private key corresponding to the public key in the
+certificate. When using modern TLS ciphers, the server
+[proves possession of the private key by digitally signing data](https://datatracker.ietf.org/doc/html/rfc8446#section-4.4.3).
+This is why "Digital Signature" is the only purpose of the key.
 
 ### Extended Key Usage {#eku}
 

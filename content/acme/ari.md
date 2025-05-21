@@ -38,7 +38,7 @@ by the [ACME Directory URL](/acme/overview/#directory). Here is how an ARI
 request looks like.
 
 ```bash
-$ curl -s -H "Accept: application/json" https://dv.acme-v02.api.pki.goog/renewal-info/db7Ed66J9kQ3fc-xaB8dGuvcNFk.AnGD1KgleQcKPY9gnifN5Q | jq
+$ curl -s -H "Accept: application/json" https://dv.acme-v02.api.pki.goog/renewal-info/db7Ed66J9kQ3fc-xaB8dGuvcNFk.AnGD1KgleQcKPY9gnifN5Q
 ```
 
 The path of the request URL ends with the base64url-encoded
