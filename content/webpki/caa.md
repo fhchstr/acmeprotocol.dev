@@ -1,7 +1,9 @@
 ---
 weight: 12
-title: CAA (Certificate Authority Authorization)
 bookToC: false
+title: CAA (Certificate Authority Authorization)
+params:
+  tabTitle: CAA - Certificate Authority Authorization
 ---
 
 # CAA (Certificate Authority Authorization)

@@ -1,7 +1,9 @@
 ---
 weight: 12
-title: EAB (External Account Binding)
 bookToC: false
+title: EAB (External Account Binding)
+params:
+  tabTitle: ACME EAB - External Account Binding
 ---
 
 # EAB (External Account Binding)

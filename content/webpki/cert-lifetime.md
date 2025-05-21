@@ -1,9 +1,11 @@
 ---
 weight: 11
 title: Certificate Lifetime
+params:
+  tabTitle: 47-Day Certificate Lifespan
 ---
 
-# Certificate Lifetime
+# Certificate Validity Period
 
 The maximal allowed validity of certificates is set by (continuously evolving)
 [WebPKI](/webpki/) requirements that all publicly trusted CAs must comply with.
@@ -128,9 +130,10 @@ for you.
 
 If you operate appliances that don't support automation, pressure your vendors
 to add support for it. If they don't, they will loose all their customers since
-the lifetime reduction is enforced by all publicly trusted CAs. Alternatively,
-install a reverse HTTPS proxy which supports certificate automation in front of
-legacy systems. See [Getting started with ACME](/getting-started/) for guidance.
+the validity period reduction is enforced by all publicly trusted CAs.
+Alternatively, install a reverse HTTPS proxy which supports certificate
+automation in front of legacy systems. See
+[Getting started with ACME](/getting-started/) for guidance.
 
 If your CA doesn't support any automation method, leave them. For the record,
 the

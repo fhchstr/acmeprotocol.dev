@@ -1,7 +1,9 @@
 ---
 weight: 13
-title: ARI (ACME Renewal Information)
 bookToC: false
+title: ARI (ACME Renewal Information)
+params:
+  tabTitle: ARI - ACME Renewal Information
 ---
 
 # ARI (ACME Renewal Information)

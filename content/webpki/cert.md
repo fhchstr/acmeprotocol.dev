@@ -1,6 +1,8 @@
 ---
 weight: 10
 title: Anatomy of a Certificate
+params:
+  tabTitle: What is a digital certificate?
 ---
 
 # Analogy with the Physical World

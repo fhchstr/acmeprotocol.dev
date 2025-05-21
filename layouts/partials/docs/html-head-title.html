@@ -1,0 +1,5 @@
+{{ $pageTitle := partial "docs/title" . }}
+{{ if .Params.TabTitle }}
+  {{ $pageTitle = .Params.TabTitle }}
+{{ end }}
+{{ print $pageTitle -}}

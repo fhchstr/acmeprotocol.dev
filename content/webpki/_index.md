@@ -1,7 +1,7 @@
 ---
 weight: 3
-title: The WebPKI
 bookToC: false
+title: The WebPKI
 ---
 
 # The WebPKI

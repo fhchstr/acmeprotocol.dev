@@ -1,7 +1,9 @@
 ---
 weight: 13
-title: MPIC (Multi-Perspective Issuance Corroboration)
 bookToC: false
+title: MPIC (Multi-Perspective Issuance Corroboration)
+params:
+  tabTitle: MPIC - Multi-Perspective Issuance Corroboration
 ---
 
 # MPIC (Multi-Perspective Issuance Corroboration)

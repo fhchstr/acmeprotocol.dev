@@ -1,7 +1,9 @@
 ---
 weight: 14
-title: CT (Certificate Transparency)
 bookToC: false
+title: CT (Certificate Transparency)
+params:
+  tabTitle: CT - Certificate Transparency
 ---
 
 # CT (Certificate Transparency)

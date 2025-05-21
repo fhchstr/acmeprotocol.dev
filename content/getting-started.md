@@ -1,7 +1,9 @@
 ---
 weight: 1
-title: Getting Started with ACME
 bookToC: false
+title: Getting Started with ACME
+params:
+  tabTitle: Getting Started with the ACME Protocol
 ---
 
 # Getting Started with ACME

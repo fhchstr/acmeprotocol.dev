@@ -1,6 +1,8 @@
 ---
 weight: 11
 title: Challenge Types
+params:
+  tabTitle: ACME Challenge Types
 ---
 
 # ACME Challenge Types
