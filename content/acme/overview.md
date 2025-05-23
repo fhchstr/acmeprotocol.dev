@@ -5,7 +5,8 @@ params:
   tabTitle: ACME protocol overview
 description:
   Master core ACME protocol concepts. Get a high-level overview of the
-  end-to-end process for getting TLS certificates for your HTTPS websites.
+  end-to-end process for automating the procurement of TLS certificates for your
+  HTTPS websites.
 ---
 
 # ACME Overview
