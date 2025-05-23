@@ -8,48 +8,66 @@ description:
   essential fields, and key extensions that underpin web security.
 ---
 
-# Analogy with the Physical World
+# Anatomy of a Certificate
+
+{{% details title="Analogy with the physical world" open=false %}}
 
 **Digital certificates are like identification documents** (passport, identity
 card, driver license, employee badge, library membership card, retail store
-fidelity card, etc.), but for websites. They tie a name to an identity, they
-hold additional metadata, they are issued by some (more or less widely
+fidelity card, etc.) but for websites. They tie a name to an identity, they hold
+additional metadata, they are issued by some (more or less widely
 recognized/trusted) entity, and they can be used/accepted in specific
 circumstances.
+
+In the same way that an identification document binds an individual to a name,
+**a digital certificate binds a cryptographic key pair to a domain name**.
 
 Digital certificates are issued by CAs (Certificate - or Certification -
 Authorities). CAs can either be public or private. Certificates issued by
 publicly trusted CAs are trusted/accepted by default by major web browsers and
 operating systems (like government-issued passports). Certificate issued by
-private CAs are only trusted/accepted by clients who agreed to trust them (like
-retail store fidelity cards).
+private CAs are only trusted/accepted by clients who have previously agreed to
+recognize them. For example, you can use your library membership card to rent
+books in your local library, but you can't use it to identify yourself when
+boarding an international flight at the airport.
 
-In the same way that an identification document attests that a person has the
-given name, **a digital certificate attests that a public key (and its
-corresponding private key) is bound to given domain names or IP addresses**.
+Note that **certificates issued by private CAs are <ins>not</ins> inherently
+less secure than certificates issued by publicly trusted CAs**. Both use the
+same underlying technology and cryptographic algorithms.
 
-When clients connect to a website via HTTPS, the server present its certificate.
-The client verifies that the certificate contains the domain name it is
-connecting to, and that it was issued by a CA it trusts. The server also sends a
-message signed using its private key. The client can then verify the signature
-using the public key from the certificate. The assumptions are that:
+It is true that private CAs **may** perform less rigorous validations, and their
+infrastructure **may** be less secure (like it is the case for library
+membership cards compared to government-issued passports). But it is totally
+feasible for private CAs to perform rigorous validations and be operated in a
+very secure manner, like it is the case for employee badges.
 
-- The private key to sign the message (which is tied to the public key in the
-  certificate) is only known to the server serving the specific domain.
+{{% /details %}}
+
+{{% details title="How TLS/HTTPS uses certificates" open=false %}}
+
+When clients connect to a website via HTTPS, the server present its certificate
+to authenticate itself. The client verifies that the certificate contains the
+domain name it is connecting to, and that it was issued by a CA it trusts. To
+prove it possesses the corresponding private key, the server signs a message
+that the client can verify using the public key included in the certificate.
+This enables the client to be confident it is connected to the website it
+expects, and that no one is eavesdropping on the connection. The assumptions are
+that:
+
+- The private key used to sign the message (which is tied to the public key in
+  the certificate) is only known to the server serving the specific domain.
 - The CA did their due diligence when issuing the certificate to verify that the
-  requester controls the included domain names.
+  requester controls the included domain name.
 
-It is worth pointing out that **certificates issued by private CAs are
-<ins>not</ins> inherently less secure than certificates issued by publicly
-trusted CAs**. Both use the same underlying technology and cryptographic
-algorithms.
+<p></p> <!-- If nothing follows, the bulleted items have too much space between them -->
 
-Private CAs **may** perform less rigorous validations, and their private keys
-**may** have fewer protections, like the library membership or retail store
-fidelity cards. But it is totally feasible to operate private CAs in a very
-secure manner, like it is done with employee badges.
+{{% /details %}}
 
-# Anatomy of a Certificate
+An X.509 digital certificate is a file which includes various fields (domain
+name, validity period, etc.) and a
+[signature](https://en.wikipedia.org/wiki/Digital_signature). The signature
+protects the integrity of the file. It is used to verify that the certificate
+was issued by a trusted entity and that it has not been tampered with.
 
 The format of X.509 digital certificates is detailed in
 [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280). A certificate is made
@@ -66,8 +84,9 @@ of a sequence of 3 fields:
   is the digital signature computed upon the `tbsCertificate` using
   `signatureAlgorithm`.
 
-This section only covers the `tbsCertificate` data structure of publicly trusted
-DV (Domain Validated) TLS web server leaf/end-entity certificates.
+The rest of this section describes the `tbsCertificate` data structure of
+publicly trusted DV (Domain Validated) TLS web server leaf/end-entity
+certificates.
 
 {{% details title="Click here to view the example certificate being dissected." open=false %}}
 
@@ -184,7 +203,7 @@ H7RqdOGixbXu
 All digital certificates use the X.509 version 3. The key addition to X.509
 version 3 is the support for extensions. Version 3 was standardized in 1999 in
 [RFC 2459](https://datatracker.ietf.org/doc/html/rfc2459#section-3.1), which is
-the precursor of RFC 5280.
+the precursor of [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280).
 
 ## Serial Number
 
@@ -193,9 +212,10 @@ the precursor of RFC 5280.
             02:71:83:d4:a8:25:79:07:0a:3d:8f:60:9e:27:cd:e5
 ```
 
-The serial number uniquely identifies the certificate. CRLs (Certificate
-Revocation Lists) reference revoked certificates by serial number. Serial
-numbers are unique across all certificates issued by a CA.
+The serial number uniquely identifies the certificate. For example,
+[CRLs (Certificate Revocation Lists)](https://en.wikipedia.org/wiki/Certificate_revocation_list)
+reference revoked certificates by serial number. Serial numbers are unique
+across all certificates issued by a CA.
 
 ## Signature Algorithm
 
@@ -203,12 +223,16 @@ numbers are unique across all certificates issued by a CA.
         Signature Algorithm: ecdsa-with-SHA256
 ```
 
-The inner signature algorithm in the `tbsCertificate` data structure has the
-same value as the outer one. The inner signature algorithm is part of the signed
-data (to guarantee its integrity), while the outer one isn't. When decoding a
-certificate, the signature of the raw `tbsCertificate` is verified before
-decoding it. This is why the signature algorithm must also be set outside of the
-`tbsCertifiate`.
+The signature algorithm in the `tbsCertificate` data structure has the same
+value as the `signatureAlgorithm` field set at the root of the X.509 certificate
+data structure. The signature algorithm in the `tbsCertificate` is part of the
+signed data (to guarantee its integrity), while the other one isn't. When
+decoding a certificate, the signature of the raw `tbsCertificate` is verified
+before decoding it. This is why the signature algorithm is also set outside of
+the `tbsCertifiate`.
+
+Certificate validation algorithms must verify that both `signatureAlgorithm`
+values are equal.
 
 ## Issuer
 
@@ -217,10 +241,12 @@ decoding it. This is why the signature algorithm must also be set outside of the
 ```
 
 The issuer holds the value of the subject field of the issuing CA certificate.
-It is used to Facilitate the construction of the certificate chain.
+It is used to facilitate the construction of the certificate chain.
 
-The following command downloads the issuing CA certificate and extracts its
-subject field.
+To demonstrate this, the command below downloads the issuing CA certificate and
+extracts its subject field. The issuer field of the certificate being dissected
+has the same value as the subject field of the downloaded issuing CA
+certificate.
 
 ```bash
 $ curl -s http://i.pki.goog/we2.crt | openssl x509 -inform DER -noout -subject
@@ -235,10 +261,12 @@ subject=C = US, O = Google Trust Services, CN = WE2
             Not After : Jun 23 08:56:26 2025 GMT
 ```
 
-The validity defines the timestamps between which the certificate is valid. The
-`notBefore` timestamp is usually backdated by a few minutes to ensure the
-certificate is recognized as immediately valid, even by machines not having an
-accurate clock. Refer to
+The validity defines the timestamps between which the certificate is valid
+(inclusive). The `notBefore` timestamp is usually backdated by a few minutes to
+ensure the certificate is recognized as immediately valid, even by machines not
+having an accurate clock.
+
+Shorter validity periods are better. Refer to
 [the page dedicated to certificate validities](/webpki/cert-lifetime/) for more
 information.
 
@@ -248,10 +276,13 @@ information.
         Subject: CN = www.google.com
 ```
 
-The subject is a is made of a sequence of key-value pairs. `CN` stands for
-`commonName`. This is where the domain name was **historically** set. **The
-subject field is long deprecated for DV TLS web server leaf certificates**.
-Nowadays, domain names are set in the `Subject Alternative Name` extension.
+The subject is a sequence of key-value pairs that identify the entity associated
+with the public key included in the certificate. This certificate's subject only
+includes the `CN` key, which stands for `commonName`.
+
+**The subject field is long deprecated for DV TLS web server leaf
+certificates**. Nowadays, domain names are set in the
+[Subject Alternative Name extension](#san).
 
 Modern clients should ignore the subject field of DV TLS web server leaf
 certificates. Some CAs still set it to ensure that very outdated clients (not
@@ -260,8 +291,8 @@ to process the certificate.
 
 OV (Organization Validated), EV (Extended Validation) and QWAC (Qualified Web
 Authentication Certificate) certificates set additional key-value pairs in the
-subject field, like for example `C=` (`countryName`) or `O=`
-(`organizationName`).
+subject field, like for example `C=` (`countryName`), `L=` (`localityName`), or
+`O=` (`organizationName`).
 
 ## Subject Public Key Info
 
@@ -284,9 +315,9 @@ with which the key is used.
 
 ## Extensions
 
-Extensions may be marked as **critical**. Critical extensions must be processed
-by clients. Clients must refuse certificates having critical extensions they do
-not recognize.
+Extensions may be marked as **critical**. Critical extensions must not be
+ignored by clients. Clients must refuse certificates having critical extensions
+they do not recognize.
 
 ### Key Usage
 
@@ -295,9 +326,10 @@ not recognize.
                 Digital Signature
 ```
 
-The key usage extension defines the purpose of the key. The server must prove to
-clients that it possesses the private key corresponding to the public key in the
-certificate. When using modern TLS ciphers, the server
+The key usage extension defines the purpose of the key.
+
+The server must prove to clients that it possesses the private key corresponding
+to the public key in the certificate. When using modern TLS ciphers, the server
 [proves possession of the private key by digitally signing data](https://datatracker.ietf.org/doc/html/rfc8446#section-4.4.3).
 This is why "Digital Signature" is the only purpose of the key.
 
@@ -311,6 +343,9 @@ This is why "Digital Signature" is the only purpose of the key.
 The extended key usage extension indicates the purposes for which the
 certificate may be used. For website certificates, "TLS Web Server
 Authentication" (`id-kp-serverAuth`) must be set.
+
+Other possible values include `id-kp-emailProtection`, `id-kp-codeSigning`, or
+`id-kp-clientAuth` for example.
 
 ### Basic Constraints
 
@@ -326,8 +361,8 @@ set to `CA:FALSE` in leaf certificates since this is the default value.
 But, as demonstrated in
 [this BlackHat talk from 2009](https://www.blackhat.com/presentations/bh-dc-09/Marlinspike/BlackHat-DC-09-Marlinspike-Defeating-SSL.pdf),
 some clients may not validate certificate chains properly, so some CAs prefer to
-keep this extension to avoid introducing very nasty vulnerabilities in such
-clients.
+keep including this extension to avoid introducing very nasty vulnerabilities in
+such clients.
 
 ### Subject Key Identifier
 
@@ -341,11 +376,11 @@ usually by computing its hash.
 
 This information is very important in CA certificates because it facilitates the
 construction of the certificate chain since all certificates must also include
-the "authority key identifier" extension.
+the [authority key identifier](#authority-key-identifier) extension.
 
-This extension isn't strictly needed in leaf certificates since it isn't used to
-validate the certificate chain. One reason to include it anyway is to easily
-find all certificates bound to the same public key.
+This extension isn't strictly needed in leaf certificates since they are at the
+end of certificate chain. One reason to include it anyway is to easily identify
+all certificates that include the same public key.
 
 ### Authority Key Identifier
 
@@ -358,8 +393,10 @@ The authority key identifier extension references the subject key identifier of
 the issuing CA certificate. It is used to facilitate the construction of the
 certificate chain.
 
-The following command downloads the issuing CA certificate and extracts its
-subject key identifier extension.
+To demonstrate this, the command below downloads the issuing CA certificate and
+extracts its subject key identifier extension. The authority key identifier of
+the certificate being dissected has the same value as the subject key identifier
+of the downloaded issuing CA certificate.
 
 ```bash
 $ curl -s http://i.pki.goog/we2.crt | openssl x509 -inform DER -noout -ext subjectKeyIdentifier
@@ -380,14 +417,17 @@ information and services for the issuer of the certificate. Here the extension
 holds two URLs:
 
 - The
-  [OCSP (Online Certificate Status Protocol)](https://datatracker.ietf.org/doc/html/rfc6960)
+  [OCSP (Online Certificate Status Protocol)](https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol)
   URL used to check whether the certificate is revoked. Note that
-  [OCSP is being deprecated](https://letsencrypt.org/2024/12/05/ending-ocsp/).
+  [OCSP is deprecated](https://letsencrypt.org/2024/12/05/ending-ocsp/).
+  **Instead, certificate validation algorithms should download [CRLs](#crldp) to
+  determine the status of certificates**.
 - The URL to download the issuing CA certificate. Note that clients should not
   rely on it to build the certificate chain since the issuing CA certificate may
   have been
   [cross-signed](https://scotthelme.co.uk/cross-signing-alternate-trust-paths-how-they-work/).
-  Instead, websites should serve the full certificate chain to their visitors.
+  **Instead, websites should serve the full certificate chain to their
+  visitors**.
 
 ### Subject Alternative Name {#san}
 
@@ -398,6 +438,15 @@ holds two URLs:
 
 The subject alternative name (SAN) extension lists all identifiers (domain names
 and IP addresses) for which this certificate can be used.
+
+Certificate validation algorithms must ignore the [subject](#subject) and rely
+on the SAN extension instead. The advantages of the SAN extension are that:
+
+- It can hold multiple identifiers.
+- It doesn't limit the length of identifiers (the `commonName` is limited to 64
+  characters).
+- It explicitly sets a type on the identifiers (in this example, the type of
+  `www.google.com` is `DNS`).
 
 ### Certificate Policies
 
@@ -411,7 +460,7 @@ been issued and the purposes for which the certificate may be used. The OID
 (Object Identifier) `2.23.140.1.2.1` signifies
 "[CA/B Forum](https://cabforum.org) DV (Domain Validated) Certificate".
 
-### CRL Distribution Points
+### CRL Distribution Points {#crldp}
 
 ```
             X509v3 CRL Distribution Points:
@@ -424,7 +473,9 @@ Revocation List) for that certificate. CRLs lists all revoked certificates by a
 CA. To limit the file size in case many certificates are revoked, some CAs
 partition their CRLs in multiple files.
 
-If the certificate is revoked, it will appear on the linked CRL file.
+If the certificate is revoked, it will appear on the linked CRL file, unless it
+is expired since expired certificates must be considered invalid, regardless of
+their revocation status.
 
 ### CT Precertificate SCTs {#sct}
 
@@ -456,13 +507,12 @@ If the certificate is revoked, it will appear on the linked CRL file.
                                 EF:07:C7:EA:C6:DF:97:76
 ```
 
-SCTs (Signed Certificate Timestamps) are promises from CT (Certificate
-Transparency) logs to include the (pre)certificate. These are SCTs from "[Google
-'Xenon2025h1' log]" and "[Let's Encrypt 'Oak2025h1']", respectively. We can
-verify that by
-[converting the hex-encoded Log ID to base64](<https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Regex','string':'Log%20ID%20*:'%7D,'',true,true,false,false)From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')>)
-and looking for that "`log_id`" in
-https://www.gstatic.com/ct/log_list/v3/log_list.json.
+SCTs (Signed Certificate Timestamps) are receipts signed by CT (Certificate
+Transparency) logs to attest they accepted to include the certificate. By
+converting the hex-encoded Log IDs to base64 and looking for that "`log_id`" in
+https://www.gstatic.com/ct/log_list/v3/log_list.json, we can determine that
+these SCTs are from [Google 'Xenon2025h1' log] and [Let's Encrypt 'Oak2025h1'],
+respectively.
 
 See [the page dedicated to Certificate Transparency](/webpki/ct/) for more
 information.
@@ -479,13 +529,13 @@ Certificates are
 structures. Certificates are generally encoded using either DER (Distinguished
 Encoding Rules) or PEM (Privacy-Enhanced Mail).
 
-DER is an unambiguous (as opposed to BER (Basic Encoding Rules)) binary encoding
-format for representing ASN.1 data structures as a sequence of bytes.
+DER is an unambiguous (as opposed to BER - Basic Encoding Rules) **binary
+encoding format** for representing ASN.1 data structures as a sequence of bytes.
 
-PEM is a text-based encoding format, which is essentially a wrapper around the
-DER encoding, making it suitable for transmission in text-based systems (like
-email, as its name suggests) and for easy copy-pasting. PEM certificates are
-made of:
+PEM is a **text-based encoding format**, which is essentially a wrapper around
+the DER encoding, making it suitable for transmission in text-based systems
+(like email, as its name suggests) and for easy copy-pasting. PEM certificates
+are made of:
 
 - A "`-----BEGIN CERTIFICATE-----`" header line.
 - The DER-encoded certificate data, converted to base64.
