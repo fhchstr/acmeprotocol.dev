@@ -29,7 +29,8 @@ operating systems (like government-issued passports). Certificate issued by
 private CAs are only trusted/accepted by clients who have previously agreed to
 recognize them. For example, you can use your library membership card to rent
 books in your local library, but you can't use it to identify yourself when
-boarding an international flight at the airport.
+boarding an international flight at the airport nor to cumulate fidelity points
+when buying groceries in your favorite retail store.
 
 Note that **certificates issued by private CAs are <ins>not</ins> inherently
 less secure than certificates issued by publicly trusted CAs**. Both use the

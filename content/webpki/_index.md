@@ -30,14 +30,16 @@ communication channels without knowing anything about each other nor having
 shared any information beforehand.
 
 This system works thanks to CAs, which are **third party** entities that clients
-trust. Clients trust that CAs are perform the necessary validations before
-issuing certificates that attest that websites is who they claim to be.
+trust. Clients trust that CAs perform the necessary validations before issuing
+certificates that attest that websites is who they claim to be.
 
-**Publicly trusted CAs are trusted by all major clients <ins>by default</ins>**.
-In practice, a CA is considered publicly trusted if it trusted by Chrome
-(Google), Mozilla (Firefox), Apple, and Microsoft, which all run a so-called
-"Root Program". Linux distributions do not run Root Programs, most of them
-simply trust the same CAs as Firefox.
+Unlike private CAs, **publicly trusted CAs are trusted by all major clients
+<ins>by default</ins>**. In practice, a CA is considered publicly trusted if it
+trusted by Chrome (Google), Mozilla (Firefox), Apple, and Microsoft, which all
+run a so-called
+"[Root Program](https://en.wikipedia.org/wiki/Public_key_certificate#Root_programs)".
+Linux distributions do not run Root Programs, most of them simply trust the same
+CAs as Firefox.
 
 CAs who want to be trusted by these Root Programs must comply with all their
 requirements (linked below). The CAs must provide evidence to third party
