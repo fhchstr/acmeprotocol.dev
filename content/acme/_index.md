@@ -34,7 +34,7 @@ the same security as paid certificates.
 These CAs offer free certificates to enable everyone to enjoy a secure and
 privacy-respecting Internet.
 
-## Why do some CAs charge money for TLS web server certificates ?
+## Why do some CAs charge money for TLS web server certificates ? {#why-pay}
 
 {{% hint info %}}
 

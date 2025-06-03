@@ -20,9 +20,10 @@ modified by others.
 
 Acquiring TLS web server certificates used to be slow, cumbersome, and
 expensive. This isn't the case anymore. \
-**Acquiring certificates is now fast, easy, automatic, and free** thanks to the [ACME protocol](/acme/)
-and **free TLS web server certificates** offered by publicly trusted ACME CAs (Certificate
-Authorities) like [Let's Encrypt](https://letsencrypt.org) and [Google Trust Services](https://pki.goog).
+**Acquiring certificates is now fast, easy, automatic, and <ins>free</ins>** thanks
+to the [ACME protocol](/acme/) and **free TLS web server certificates** offered by
+publicly trusted ACME CAs (Certificate Authorities) like [Let's Encrypt](https://letsencrypt.org)
+and [Google Trust Services](https://pki.goog).
 
 HTTPS adoption keeps growing since
 [Let's Encrypt became generally available](https://letsencrypt.org/2016/04/12/leaving-beta-new-sponsors/)

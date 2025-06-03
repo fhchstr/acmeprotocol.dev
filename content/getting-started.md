@@ -27,6 +27,13 @@ all ACME integrations.
 
 ## Free Publicly Trusted ACME CAs
 
+{{% hint info %}}
+
+As explained on [this page](/acme/#why-pay), certificates provided by free CAs
+are as secure as certificates issued by commercial CAs.
+
+{{% /hint %}}
+
 It is recommended to use (or to be ready to use) more than one CA to mitigate
 the impact of CA outages and forced certificate revocations caused by compliance
 violations (which happen, even to the most rigorous CAs).
@@ -51,8 +58,8 @@ answers may not be easily found online.
 - Does the CA support [ARI (ACME Renewal Information)](/acme/ari/)?
 - Does the CA require [EAB (External Account Binding)](/acme/eab/)? If yes, is
   it a problem for you?
-- What clients (browsers, command-line utilities, operating systems, embedded
-  systems, programming languages, etc.), and which versions, trust the
+- What clients (web browsers, command-line utilities, operating systems,
+  embedded systems, programming languages, etc.), and which versions, trust the
   certificates issued by the CA?
 - What is the
   [security level](https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/understanding-security-levels.html)
@@ -208,3 +215,7 @@ found online.
 - Does the client support [EAB (External Account Binding)](/acme/eab/)?
 - Does the client support [ARI (ACME Renewal Information)](/acme/ari/)?
 - Is the client popular/actively maintained?
+
+If you are planning to implement your own client, use
+[Pebble](https://letsencrypt.org/2025/04/30/pebbleacmeimplementation/) for your
+integration tests.
