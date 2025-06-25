@@ -16,10 +16,10 @@ requesters control the identifiers (domain name or IP address) requested to be
 included. Different [challenge types](/acme/challenges/) exist to enable
 requesters to prove they control an identifier.
 
-All challenge types require the CA to query a network resource via DNS or HTTP
-and verify that it holds the expected value. The queries made by the CA are
-performed over unauthenticated channels. This means that **they are vulnerable
-to network hijacking attacks**.
+All challenge types require the CA to query a network resource (usually via DNS
+or HTTP) and verify that it holds the expected value. The queries made by the CA
+are performed over unauthenticated channels. This means that **they are
+vulnerable to network hijacking attacks**.
 
 If attackers can influence how packets are routed on the network, **they could
 successfully solve ACME challenges** by redirecting the validation requests made

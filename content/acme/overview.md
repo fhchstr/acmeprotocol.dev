@@ -149,7 +149,8 @@ Most ACME requests:
 - Must have a "`kid`"
   ([Key ID](https://datatracker.ietf.org/doc/html/rfc7515#section-4.1.4)) field
   which references the ACME account URL to which the key is bound.
-- Must use the HTTP `POST` method since HTTP `GET` requests can't have a body.
+- Must use the HTTP `POST` method since HTTP `GET` requests can't have a signed
+  JSON body.
 - Must include an unpredictable nonce to protect against replay attacks.
 - Must include a "`url`" field (part of the **signed** JSON body) which
   specifies the URL to which the request is directed to protect against
@@ -178,14 +179,14 @@ signed using the certificate private key instead of the account private key.
 New certificate orders are created by sending an HTTP `POST` request to the
 `newOrder` URL. The JSON body of the request must include the identifiers
 (domain names and IP addresses) that the client wishes to include in the
-certificate and, optionally, the `notBefore`/`notAfter` timestamps that
-determine the certificate's validity. If they aren't set, the CA sets sane
-default values instead. See
+certificate and, optionally, if the CA supports it, the `notBefore`/`notAfter`
+timestamps that determine the certificate's validity. If they aren't set, the CA
+sets sane default values instead. See
 [the page dedicated to certificate lifetimes](/webpki/cert-lifetime/) for more
 information.
 
 If the CA is willing to issue the requested certificate, it responds with a
-`201 (Created)` HTTP status. The JSON body of the response contains the URL of
+`201 (Created)` HTTP status. The JSON body of the response contains the URLs of
 all authorizations the client must complete before the certificate can be
 issued. The client must send `POST-as-GET` requests to the indicated URLs to
 fetch detailed information about the authorization resources tied to the order.
@@ -285,15 +286,16 @@ Each authorization has multiple associated challenges, each with a
 [different type](/acme/challenges/). To complete an authorization, the client
 must **solve one of them** (the client gets to choose the one they prefer). The
 most common challenge types are `dns-01` and `http-01`. They require the client
-to publish a value derived from a token provided by the CA to an agreed upon URL
-via DNS or HTTP, respectively. It is assumed that **the value at the agreed upon
-URL can only be updated by someone who legitimately controls the identifier**.
+to publish a value derived from a token provided by the CA to an agreed upon
+location accessible via DNS or HTTP, respectively. It is assumed that **the
+value at the agreed upon location can only be updated by someone who
+legitimately controls the identifier**.
 
 The client must send an HTTP `POST` request with an empty JSON body ("`{}`") to
 the challenge URL (not the authorization URL) once they are ready for CA to
 validate a challenge. Upon receiving this request, the CA retrieves content from
-the agreed upon URL (via DNS or HTTP) and verifies that the fetched data matches
-the expected value.
+the agreed upon location (via DNS or HTTP) and verifies that the fetched data
+matches the expected value.
 
 To mitigate hijacking attacks, CAs perform the challenge validation from
 multiple vantage points worldwide. Refer to
@@ -314,7 +316,8 @@ state if all their identifiers were previously authorized.
 
 Orders are finalized by sending an HTTP `POST` request to the `finalize` URL
 found in the JSON object returned by `newOrder`. This request must only be sent
-once all corresponding authorizations have been completed.
+once all corresponding authorizations have been completed (and the order is thus
+in the `"ready"` state).
 
 The JSON body of the `finalize` request must include a
 [CSR (Certificate Signing Request)](https://en.wikipedia.org/wiki/Certificate_signing_request)
@@ -337,8 +340,8 @@ required to validate the authenticity of the certificate. See
 [the page dedicated to the anatomy of certificates](/webpki/cert/) for more
 information.
 
-The CA then respond with a `200 (OK)` HTTP status. The JSON body of the response
-contains an updated order object having its status set to "`valid`" and a new
+The client may have to regularly poll the order URL until the order object in
+the JSON body of the response has its status set to "`valid`" and a new
 "`certificate`" field that holds the URL for downloading the issued certificate.
 
 To download the issued certificate, the client simply sends an HTTP

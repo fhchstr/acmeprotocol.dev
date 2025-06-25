@@ -21,9 +21,11 @@ Before going any further, remember that
 (if your setup allows it).
 
 When implementing ACME, follow the guidance from the
-[Let's Encrypt integration guide](https://letsencrypt.org/docs/integration-guide/).
-Most of their recommendations aren't specific to Let's Encrypt. They apply to
-all ACME integrations.
+[Best Practices for ACME Client Operations](https://github.com/https-dev/docs/blob/master/acme-ops.md)
+and the
+[Let's Encrypt integration guide](https://letsencrypt.org/docs/integration-guide/)
+(most recommendations aren't specific to Let's Encrypt, they apply to all ACME
+integrations).
 
 ## Free Publicly Trusted ACME CAs
 
@@ -40,10 +42,11 @@ violations (which happen, even to the most rigorous CAs).
 
 Depending on your needs, here are questions you may ask yourself to aid your
 selection. The answer to some of these questions may change over time and some
-answers may not be easily found online.
+answers may not be easily found online. Noteworthy well-known characteristics of
+free ACME CAs are listed below.
 
 - What is the SLO/SLA (Service Level Objective/Service Level Agreement) of the
-  CA?
+  CA? (remember that using multiple CAs mitigates the impact of CA outages)
 - Does the CA provide user support?
 - Can the CA issue
   [wildcard certificates](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/)?
@@ -85,13 +88,13 @@ domains.
 - Supports
   [internationalized domain name](https://en.wikipedia.org/wiki/Punycode)
   certificates
+- Supports user-defined certificate lifetimes (within allowed limits)
 - Widely trusted certificate chains (it's the same trust anchors as the ones
   used by `google.com`)
 - Requires [EAB (External Account Binding)](/acme/eab/) with a GCP (Google Cloud
   Platform) account/project (see
   [integration guide](https://cloud.google.com/certificate-manager/docs/public-ca-tutorial))
 - Supports [ARI (ACME Renewal Information)](/acme/ari/)
-- Supports the [dns-account-01](/acme/challenges/#dns-account-01) challenge type
 
 <p></p> <!-- If nothing follows, the bulleted items have too much space between them -->
 

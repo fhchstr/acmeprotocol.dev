@@ -150,9 +150,9 @@ Short-lived certificates are valid for less than 7 days (or 10 days if they were
 issued before 2026-03-15). **Short-lived certificates don't have to be
 revocable**. Since revocation is imperfect, status information can take days to
 become globally consistent when certificates are revoked. Some clients even
-forget to query the revocation status of certificates. Short-lived certificates
-solve this problem since **they are guaranteed to become invalid after just a
-few days**.
+forget to query the revocation status of certificates (or intentionally skip
+it). Short-lived certificates solve this problem since **they are guaranteed to
+become invalid after just a few days**.
 
 [Google Trust Services](https://pki.goog/) can issue certificate valid for as
 low as a single day and they limit the maximal validity of

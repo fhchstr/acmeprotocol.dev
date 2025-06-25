@@ -263,9 +263,9 @@ subject=C = US, O = Google Trust Services, CN = WE2
 ```
 
 The validity defines the timestamps between which the certificate is valid
-(inclusive). The `notBefore` timestamp is usually backdated by a few minutes to
-ensure the certificate is recognized as immediately valid, even by machines not
-having an accurate clock.
+(inclusive). The `notBefore` timestamp is usually backdated by a few minutes, or
+even one hour, to ensure the certificate is recognized as immediately valid,
+even by machines not having an accurate clock.
 
 Shorter validity periods are better. Refer to
 [the page dedicated to certificate validities](/webpki/cert-lifetime/) for more

@@ -59,7 +59,8 @@ the key authorization, and the validation record name is
 `_acme-challenge.{domain}`.
 
 The `dns-01` challenge type can be used to issue certificates containing
-[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/).
+[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/),
+but it can't be used to issue certificate containing IP addresses.
 
 See [RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555#section-8.4) and
 [the excellent summary from Let's Encrypt](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge)
@@ -73,7 +74,8 @@ difference is that the validation record name is not just
 ACME account key. For example: `_ujmmovf2vn55tgye._acme-challenge.{domain}`.
 
 The `dns-account-01` challenge type can be used to issue certificates containing
-[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/).
+[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/),
+but it can't be used to issue certificate containing IP addresses.
 
 The `dns-account-01` challenge type enables multiple independent systems to
 authorize a single domain name **concurrently** since it relies on a different
