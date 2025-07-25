@@ -168,7 +168,8 @@ request to the `newNonce` URL.
 To fetch resources (which would otherwise be done using the HTTP `GET` method),
 clients must send HTTP `POST` requests with a JWS (JSON Web Signature) body
 having the `payload` field set to the empty string (`""`). Such requests are
-referred to as "`POST-as-GET`" requests.
+referred to as "`POST-as-GET`" requests. CAs do not consistently enforce this
+requirement. Some of them also allow `GET` requests for static resources.
 
 There are a few exceptions to these rules. For example, the Directory URL can be
 fetched using a simple HTTP `GET` request, or `revokeCert` requests can be

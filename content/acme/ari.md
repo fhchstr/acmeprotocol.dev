@@ -19,14 +19,16 @@ compliance requirement violated by the CA. In addition, ARI also helps to
 **mitigate load spikes on the CA infrastructure** by evenly distributing the
 suggested renewal window across all certificates.
 
-ARI is being standardized in a
-[draft RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-ari/). See the
+ARI is standardized in
+[RFC 9773](https://datatracker.ietf.org/doc/html/rfc9773).
+
+See the initial
 [ARI announcement](https://letsencrypt.org/2023/03/23/improving-resliiency-and-reliability-with-ari/)
 and the
 [ARI integration guide](https://letsencrypt.org/2024/04/25/guide-to-integrating-ari-into-existing-acme-clients/)
-from Let's Encrypt for more information.
+from Let's Encrypt for additional information.
 
-## How Does It Work ?
+## How Does ARI Work ?
 
 ACME clients generally run at a scheduled interval (e.g. once a day via `cron`).
 Without ARI, most ACME client renew their certificates either a fix amount of

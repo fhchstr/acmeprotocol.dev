@@ -19,7 +19,9 @@ Because it makes **HTTPS easy and automatic**. ACME enables you to quickly and
 easily get TLS web server (`serverAuth`) certificates for your HTTPS websites.
 ACME eliminates manual hassle and the risk of expired certificates!
 
-[This research paper from 2019](https://jhalderm.com/pub/papers/letsencrypt-ccs19.pdf)
+[This Let's Encrypt paper](https://jhalderm.com/pub/papers/letsencrypt-ccs19.pdf)
+from the
+[2019 ACM CCS conference](https://sigsac.org/ccs/CCS2019/index.php/program/accepted-papers/)
 measured the effectiveness of ACME to prevent expired certificates in section
 7.5 titled "Certificate Renewals".
 
@@ -76,9 +78,14 @@ regulations, **just use free DV certificates**. OV, EV, and QWAC certificates
 include additional fields and attributes, such as the name, locality, or even
 the VAT number of the entity that requested the certificate. Even if this
 additional information was thoroughly validated by the CA, web browsers ignore
-it
-([or users may misinterpret it](https://web.archive.org/web/20191220215533/https://stripe.ian.sh/)).
-Thus, there is no point in paying extra money for OV, EV, or QWAC certificates.
+it.
+[The Chrome Security UX team concluded](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/security/ev-to-page-info.md)
+that the additional fields from EV certificates don't protect users as intended
+and
+[an independent security researcher demonstrated](https://web.archive.org/web/20191220215533/https://stripe.ian.sh/)
+that it is easy to obtain deceptive EV certificates. OV and QWAC certificate
+have the same flaws. Thus, there is no point in paying extra money for OV, EV,
+or QWAC certificates.
 
 HTTPS doesn't guarantee that a site is secure or that the entity that operates
 it is trustworthy. As noted in
