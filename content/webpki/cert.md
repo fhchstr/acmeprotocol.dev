@@ -438,7 +438,17 @@ holds two URLs:
 ```
 
 The subject alternative name (SAN) extension lists all identifiers (domain names
-and IP addresses) for which this certificate can be used.
+and IP addresses) for which this certificate can be used. IP addresses can
+either be IPv4 or IPv6 addresses and domain names can either be Fully Qualified
+Domain Names
+([FQDNs](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)) or wildcard
+domain names.
+
+A wildcard domain name must start with an asterisk (`*`) and be immediatelly
+followed by a dot (`.`) and a FQDN. A certificate containing a wildcard domain
+name can be used to authenticate all **direct** subdomains of the FQDN (the
+wildcard only matches **one** level). For example, `*.google.com` can be used to
+authenticate `cloud.google.com`, but not `android.clients.google.com`.
 
 Certificate validation algorithms must ignore the [subject](#subject) and rely
 on the SAN extension instead. The advantages of the SAN extension are that:

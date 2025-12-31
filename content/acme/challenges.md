@@ -68,6 +68,11 @@ for more information about the `dns-01` challenge type and its pros/cons.
 
 ## dns-account-01
 
+The `dns-account-01` challenge type is not standardized yet. As such, it isn't
+widely supported by ACME CAs and ACME clients. See the <ins>**draft**</ins>
+[RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/) for
+more information.
+
 The `dns-account-01` challenge type is almost the same as `dns-01`. The main
 difference is that the validation record name is not just
 `_acme-challenge.{domain}`. Instead, it contains an extra label derived from the
@@ -85,10 +90,29 @@ particularly valuable for multi-region or multi-cloud deployments that wish to
 rely upon DNS-based domain control validation and need to independently obtain
 certificates for the same domain.
 
-The `dns-account-01` challenge type is not standardized yet. See the
-<ins>**draft**</ins>
-[RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/) for
+## dns-persist-01
+
+The `dns-persist-01` challenge type is not standardized yet. As such, it isn't
+widely supported by ACME CAs and ACME clients. See the <ins>**draft**</ins>
+[RFC](https://www.ietf.org/archive/id/draft-ietf-acme-dns-persist-00.html) for
 more information.
+
+The `dns-persist-01` challenge type requires the client to provision a `TXT`
+resource record on DNS that identifies a CA and an account. This authorizes that
+account registered on that CA to request certificates for that domain without
+having to update DNS records to prove domain control.
+
+The validation record name is `_validation-persist.{domain}` and the value must
+be formatted like a [CAA](/webpki/caa/) resource record. For example:
+`authority.example; accounturi=https://authority.example/acct/123`
+
+The `dns-persist-01` challenge type can be used to issue certificates containing
+[wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/)
+and certificates containing IP addresses.
+
+For IP addresses, the validation record name is
+`_ip-validation-persist.{reverse-zone-domain-name}`. For example:
+`_ip-validation-persist.4.3.2.1.in-addr.arpa` for the IPv4 address `1.2.3.4`.
 
 ## tls-alpn-01
 

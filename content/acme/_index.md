@@ -13,6 +13,10 @@ description:
 protocol to automate the process of obtaining and renewing **digital
 certificates**.
 
+[This captivating article](https://blog.brocas.org/2025/12/01/ACME-a-brief-history-of-one-of-the-protocols-which-has-changed-the-Internet-Security/)
+by [Christophe Brocas](https://www.brocas.org/) traces the history of the ACME
+protocol.
+
 ## Why use ACME ?
 
 Because it makes **HTTPS easy and automatic**. ACME enables you to quickly and
@@ -21,7 +25,7 @@ ACME eliminates manual hassle and the risk of expired certificates!
 
 [This Let's Encrypt paper](https://jhalderm.com/pub/papers/letsencrypt-ccs19.pdf)
 from the
-[2019 ACM CCS conference](https://sigsac.org/ccs/CCS2019/index.php/program/accepted-papers/)
+[2019 ACM CCS conference](https://sigsac.org/ccs/CCS2019/index.php/proceedings/#:~:text=Let%E2%80%99s%20Encrypt%3A%20An%20Automated%20Certificate%20Authority%20to%20Encrypt%20the%20Entire%20Web)
 measured the effectiveness of ACME to prevent expired certificates in section
 7.5 titled "Certificate Renewals".
 

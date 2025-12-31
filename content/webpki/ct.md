@@ -115,7 +115,8 @@ recognized by major browsers:
 - [Google Chrome](https://www.gstatic.com/ct/log_list/v3/log_list.json)
 - [Apple Safari](https://valid.apple.com/ct/log_list/current_log_list.json)
 - [Mozilla Firefox](https://blog.transparency.dev/ct-in-firefox#heading-firefox-known-ct-logs)
-- Microsoft Edge does not require certificates to be submitted to CT logs
+- Microsoft Edge is Chromium based, and as such, it recognizes the same CT logs
+  as Google Chrome
 
 When browsers validate publicly trusted TLS web server certificates, they
 extract the SCTs and they verify their signature against their list of trusted

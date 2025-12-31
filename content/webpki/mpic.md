@@ -28,7 +28,7 @@ resulting in the CA issuing certificates for identifiers not legitimately
 controlled by the attackers.
 
 **This is not just a theoretical risk**. Researchers have already proven that
-[this attack works](https://www.usenix.org/conference/usenixsecurity18/presentation/birge-lee)!
+[this attack works](https://blog.citp.princeton.edu/2022/03/09/attackers-exploit-fundamental-flaw-in-the-webs-security-to-steal-2-million-in-cryptocurrency/)!
 
 To mitigate such attacks,
 [Let's Encrypt](https://letsencrypt.org/2020/02/19/multi-perspective-validation/)

@@ -31,7 +31,9 @@ in 2016. As shown on
 [Google's HTTPS transparency report](https://transparencyreport.google.com/https/overview),
 **HTTPS is now the norm**. For instance,
 [Cloudflare shut down all cleartext HTTP ports](https://blog.cloudflare.com/https-only-for-cloudflare-apis-shutting-the-door-on-cleartext-traffic/)
-on `api.cloudflare.com` in 2025.
+on `api.cloudflare.com` in 2025 and
+[Chrome will warn users before accessing sites without HTTPS](https://security.googleblog.com/2025/10/https-by-default.html)
+in 2026.
 
 HTTPS and digital certificates are foundational layers of the Internet. Website
 operators shouldn't have to think about it. **HTTPS should be automatically

@@ -31,8 +31,10 @@ equally trusted. Browsers treat certificates issued by popular CAs the same way
 as certificates issued by small regional CAs. As demonstrated by
 [this article from 2022](https://unmitigatedrisk.com/?p=673), **98% of all
 publicly trusted TLS web server certificates were issued by the top 5 CAs** (out
-of 200+ CAs). Current numbers are still in the same ballpark. The vast majority
-of publicly trusted TLS web server certificates are issued by a handful of CAs.
+of 200+ CAs). Current numbers are still in the same ballpark
+([this article from 2025](https://unmitigatedrisk.com/?p=1055) analyzes the data
+from a different point of view). The vast majority of publicly trusted TLS web
+server certificates are issued by a handful of CAs.
 
 If you know you will only request certificates from a few selected CAs, **CAA is
 a cheap and easy way to prevent other CAs from mistakenly issuing certificates
