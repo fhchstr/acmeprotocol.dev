@@ -13,9 +13,10 @@ description:
 
 ACME challenges provide the CA with assurance that certificate requesters
 control the identifiers (domain name or IP address) requested to be included
-certificates. To successfully complete challenges, clients must both prove that
-they control the identifiers in question and that they hold the private key of
-the account key pair used to respond to the challenges.
+certificates. To successfully complete challenges, clients must prove that they
+control the identifiers in question and, for most challenge types, clients must
+also prove that they hold the private key of the account key pair used to
+respond to the challenges.
 
 ACME challenges typically require the client to set up some network accessible
 resource that the CA can query (via DNS or HTTP)
@@ -31,11 +32,16 @@ challenge validations**!
 
 Most ACME challenges make use of a "key authorization string". This string
 concatenates the [CA-provided token](/acme/overview/#authz) for the challenge
-with the ACME account key fingerprint, separated by a "`.`" character
+with the base64URL-encoded ACME account key SHA-256 JSON Web Key (JWK)
+Thumbprint, separated by a "`.`" character.
 
 ```
-keyAuthorization = token || '.' || base64url(sha256(accountKey))
+keyAuthorization = token || '.' || base64url(sha256-jwk-thumbprint(accountKey))
 ```
+
+The `sha256-jwk-thumbprint` step indicates the computation specified in
+[RFC 7638](https://datatracker.ietf.org/doc/html/rfc7638#section-3), using the
+SHA-256 digest algorithm.
 
 ## http-01
 
@@ -68,15 +74,14 @@ for more information about the `dns-01` challenge type and its pros/cons.
 
 ## dns-account-01
 
-The `dns-account-01` challenge type is not standardized yet. As such, it isn't
-widely supported by ACME CAs and ACME clients. See the <ins>**draft**</ins>
-[RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/) for
-more information.
+The `dns-account-01` challenge type is still a <ins>**draft**</ins>
+[RFC](https://datatracker.ietf.org/doc/draft-ietf-acme-dns-account-label/) at
+the moment. As such, it isn't widely supported by ACME CAs and ACME clients.
 
 The `dns-account-01` challenge type is almost the same as `dns-01`. The main
 difference is that the validation record name is not just
 `_acme-challenge.{domain}`. Instead, it contains an extra label derived from the
-ACME account key. For example: `_ujmmovf2vn55tgye._acme-challenge.{domain}`.
+ACME account URL. For example: `_ujmmovf2vn55tgye._acme-challenge.{domain}`.
 
 The `dns-account-01` challenge type can be used to issue certificates containing
 [wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/),
@@ -90,29 +95,41 @@ particularly valuable for multi-region or multi-cloud deployments that wish to
 rely upon DNS-based domain control validation and need to independently obtain
 certificates for the same domain.
 
+See
+[this article from Fastly](https://www.fastly.com/blog/smarter-acme-challenge-for-multi-cdn-world)
+for more information about the `dns-account-01` challenge type and its
+pros/cons.
+
 ## dns-persist-01
 
-The `dns-persist-01` challenge type is not standardized yet. As such, it isn't
-widely supported by ACME CAs and ACME clients. See the <ins>**draft**</ins>
-[RFC](https://www.ietf.org/archive/id/draft-ietf-acme-dns-persist-00.html) for
-more information.
+The `dns-persist-01` challenge type is still a <ins>**draft**</ins>
+[RFC](https://www.ietf.org/archive/id/draft-ietf-acme-dns-persist-00.html) at
+the moment. As such, it isn't widely supported by ACME CAs and ACME clients.
 
 The `dns-persist-01` challenge type requires the client to provision a `TXT`
-resource record on DNS that identifies a CA and an account. This authorizes that
-account registered on that CA to request certificates for that domain without
-having to update DNS records to prove domain control.
+resource record on DNS that identifies a CA and an account authorized to request
+certificates for that domain. The validation record name is
+`_validation-persist.{domain}` and the value must be formatted like a
+[CAA](/webpki/caa/) resource record. For example: <br/>
+`pki.goog; accounturi=https://dv.acme-v02.api.pki.goog/account/G5TNiqAfNGyiyHC6wibmCA`.
 
-The validation record name is `_validation-persist.{domain}` and the value must
-be formatted like a [CAA](/webpki/caa/) resource record. For example:
-`authority.example; accounturi=https://authority.example/acct/123`
+Unlike other challenge types, `dns-persist-01` doesn't require updating a
+network accessible resource during domain validation nor de-provisioning the
+resource upon validation. With `dns-persist-01`, the network accessible resource
+only has to be provisioned once and never needs to be updated afterward.
 
 The `dns-persist-01` challenge type can be used to issue certificates containing
 [wildcard domain names](https://www.keyfactor.com/blog/what-is-a-wildcard-certificate/)
 and certificates containing IP addresses.
 
-For IP addresses, the validation record name is
-`_ip-validation-persist.{reverse-zone-domain-name}`. For example:
+For IP validating addresses, the validation record name is <br/>
+`_ip-validation-persist.{reverse-zone-domain-name}`. For example: <br/>
 `_ip-validation-persist.4.3.2.1.in-addr.arpa` for the IPv4 address `1.2.3.4`.
+
+See
+[this article from DigiCert](https://www.digicert.com/blog/a-new-dns-validation-method)
+for more information about the `dns-persist-01` challenge type and its
+pros/cons.
 
 ## tls-alpn-01
 

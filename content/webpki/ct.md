@@ -50,10 +50,12 @@ major innovations in cryptography.
 Transparency **<ins>2.0</ins>**. But it is likely that this proposed new version
 will never be widely adopted.
 
-[Sunlight](https://letsencrypt.org/2024/03/14/introducing-sunlight/) is an
-experimental addition to the Certificate Transparency **<ins>1.0</ins>**
-specification that optimizes the internals of CT logs and increases caching
-opportunities. The Sunlight specification defines new APIs for reading CT logs.
+The [Static CT API](https://github.com/C2SP/C2SP/blob/main/static-ct-api.md) is
+an addition to the Certificate Transparency **<ins>1.0</ins>** specification
+that optimizes the internals of CT logs and increases caching opportunities. The
+Static CT specification defines new APIs for reading CT logs. See
+[this article from Let's Encrypt](https://letsencrypt.org/2025/08/14/rfc-6962-logs-eol)
+for more information about its benefits.
 
 ## Domain Owner Responsibilities
 
@@ -127,7 +129,6 @@ CT logs are operated, **for free**, by
 [a few organizations](https://certificate.transparency.dev/logs/) who believe
 this is the right thing to do for providing a safer Internet to everyone. They
 provide an invaluable service that most Internet users are not even aware of.
-Running reliable and compliant CT logs is expensive and requires a lot of work.
 Log operators deserve a large thank you (**some accept donations!**).
 
 {{% details title="No publicly trusted CA can issue certificates if all CT logs stop working!" open=false %}}

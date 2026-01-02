@@ -448,7 +448,8 @@ A wildcard domain name must start with an asterisk (`*`) and be immediatelly
 followed by a dot (`.`) and a FQDN. A certificate containing a wildcard domain
 name can be used to authenticate all **direct** subdomains of the FQDN (the
 wildcard only matches **one** level). For example, `*.google.com` can be used to
-authenticate `cloud.google.com`, but not `android.clients.google.com`.
+authenticate `cloud.google.com`, but not `android.clients.google.com` (not a
+direct subdomain) nor `google.com` (not a subdomain).
 
 Certificate validation algorithms must ignore the [subject](#subject) and rely
 on the SAN extension instead. The advantages of the SAN extension are that:
