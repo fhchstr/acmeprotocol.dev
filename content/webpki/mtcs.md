@@ -21,9 +21,8 @@ certificate, a Certificate Authority (CA) signs a single cryptographic
 commitment to the root or head of a Merkle tree—that can represent millions
 of issued certificates simultaneously.
 
-During a Transport Layer Security (TLS) handshake, the browser receives a
-compact "inclusion proof" consisting of a sequence of hashes from the leaf
-to the tree root.
+During a TLS handshake, the browser receives a compact "inclusion proof"
+consisting of a sequence of hashes from the leaf to the tree root.
 
 This architecture fundamentally changes how certificates are structured,
 treating the cryptographic proof of inclusion as the certificate itself.
@@ -45,14 +44,14 @@ robust quantum resistance.
 
 ## Evolving the WebPKI Ecosystem
 
-The deployment of MTCs, currently being standardized through the IETF’s
-PLANTS working group, will fundamentally evolve the Web Public-Key
-Infrastructure (WebPKI) by seamlessly integrating Certificate Transparency
-(CT) directly into the issuance process. In this new paradigm, it becomes
-impossible for a CA to issue an MTC without inherently publishing it to an
-auditable, append-only public log. Furthermore, MTCs introduce
-"landmark"—specific subtree hashes that are periodically pre-distributed to
-browsers out-of-band, much like routine browser updates. When a client
-already possesses a landmark hash, a web server can present a "signatureless"
-certificate relying entirely on the inclusion proof, streamlining certificate
-validation.
+The deployment of MTCs, currently being standardized through the
+[IETF’s PLANTS working group](https://datatracker.ietf.org/doc/draft-ietf-plants-merkle-tree-certs/)
+will fundamentally evolve the Web Public-Key Infrastructure (WebPKI) by
+seamlessly integrating Certificate Transparency (CT) directly into the
+issuance process. In this new paradigm, it becomes impossible for a CA to
+issue an MTC without inherently publishing it to an auditable, append-only
+public log. Furthermore, MTCs introduce "landmark"—specific subtree hashes
+that are periodically pre-distributed to browsers out-of-band, much like
+routine browser updates. When a client already possesses a landmark hash,
+a web server can present a "signatureless" certificate relying entirely on
+the inclusion proof, streamlining certificate validation.
